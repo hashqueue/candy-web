@@ -1,69 +1,160 @@
 <template>
-  <div class="login flex-r-c">
-    <div class="login-box flex-c">
-      <p style="text-align: center; font-size: 20px; font-weight: bold"><i>Welcome To DsAdmin</i></p>
-      <a-form
-        :model="formState"
-        name="basic"
-        :label-col="{ span: 8 }"
-        :wrapper-col="{ span: 16 }"
-        autocomplete="off"
-        @finish="onFinish"
-        @finishFailed="onFinishFailed"
-      >
-        <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
-          <a-input v-model:value="formState.username" />
-        </a-form-item>
+  <div class="base-container">
+    <a-row class="a-row-flex" justify="center" align="middle">
+      <a-card class="login-box">
+        <a-tabs v-model:activeKey="activeKey" centered>
+          <a-tab-pane key="login" tab="登录">
+            <a-form
+              :model="loginForm"
+              name="login"
+              :rules="loginRules"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 10 }"
+              autocomplete="off"
+              @finish="onLoginFinish"
+              @finishFailed="onLoginFinishFailed"
+            >
+              <a-form-item label="用户名" name="username">
+                <a-input v-model:value="loginForm.username" placeholder="请输入用户名或邮箱" :allow-clear="true">
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
 
-        <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码!' }]">
-          <a-input-password v-model:value="formState.password" />
-        </a-form-item>
+              <a-form-item label="密码" name="password">
+                <a-input-password v-model:value="loginForm.password" placeholder="请输入密码" :allow-clear="true">
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
 
-        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-          <a-button type="primary" html-type="submit">登陆</a-button>
-        </a-form-item>
-      </a-form>
-    </div>
+              <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+                <a-button type="primary" html-type="submit">登录</a-button>
+              </a-form-item>
+            </a-form>
+          </a-tab-pane>
+          <a-tab-pane key="register" tab="注册">
+            <a-form
+              :model="registerForm"
+              name="register"
+              :rules="registerRules"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 10 }"
+              autocomplete="off"
+              @finish="onRegisterFinish"
+              @finishFailed="onRegisterFinishFailed"
+            >
+              <a-form-item label="用户名" name="username">
+                <a-input v-model:value="registerForm.username" placeholder="请输入用户名" :allow-clear="true">
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
+
+              <a-form-item label="邮箱" name="email">
+                <a-input v-model:value="registerForm.email" placeholder="请输入邮箱" :allow-clear="true">
+                  <template #prefix>
+                    <MailOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
+
+              <a-form-item label="密码" name="password">
+                <a-input-password v-model:value="registerForm.password" placeholder="请输入密码" :allow-clear="true">
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
+
+              <a-form-item label="确认密码" name="password_confirm">
+                <a-input-password
+                  v-model:value="registerForm.password_confirm"
+                  placeholder="请输入确认密码"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
+
+              <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+                <a-button type="primary" html-type="submit">注册</a-button>
+              </a-form-item>
+            </a-form>
+          </a-tab-pane>
+        </a-tabs>
+      </a-card>
+    </a-row>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
+import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
-const formState = reactive({
+const activeKey = ref('login')
+const loginForm = reactive({
   username: '',
   password: ''
 })
+const registerForm = reactive({
+  username: '',
+  password: '',
+  email: '',
+  password_confirm: ''
+})
+const loginRules = {
+  username: [{ required: true, trigger: 'change', message: '用户名或邮箱不能为空.' }],
+  password: [{ required: true, trigger: 'change', message: '密码不能为空.' }]
+}
+const registerRules = {
+  username: [{ required: true, trigger: 'change', message: '用户名不能为空.' }],
+  password: [{ required: true, trigger: 'change', message: '密码不能为空.' }],
+  email: [{ required: true, trigger: 'change', message: '邮箱地址不能为空.' }],
+  password_confirm: [{ required: true, trigger: 'change', message: '确认密码不能为空.' }]
+}
 
-const onFinish = (values) => {
-  const { username, password } = values
-  if (username === 'admin' && password === '123456') {
+const onLoginFinish = (values) => {
+  console.log('Success:', values)
+  if (values.username === 'admin' && values.password === '111111') {
     router.push('/dashboard')
   } else {
-    message.error('登陆失败')
+    message.error('账号或密码错误!')
   }
 }
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo)
+
+const onLoginFinishFailed = (errorInfo) => {
+  message.error('输入有误！')
+}
+
+const onRegisterFinish = (values) => {
+  console.log('Success:', values)
+}
+
+const onRegisterFinishFailed = (errorInfo) => {
+  message.error('输入有误！')
 }
 </script>
 
 <style scoped lang="less">
-.login {
+.base-container {
   width: 100vw;
   height: 100vh;
   background: #2c5364 url('src/assets/background.svg');
-
+  .a-row-flex {
+    height: 100%;
+  }
   .login-box {
-    padding: 30px 60px;
-    background-color: #fff;
-    border-radius: 5px;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.95;
+    width: 800px;
+    height: 500px;
   }
 }
 </style>

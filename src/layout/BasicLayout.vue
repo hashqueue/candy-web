@@ -27,6 +27,7 @@ const selectedKeys = ref(['2'])
 }
 .header-container {
   position: fixed;
+  zindex: 1;
   width: 100%;
 }
 .main-container {
