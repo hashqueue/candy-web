@@ -7,10 +7,11 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   css: {
     preprocessorOptions: {
-      modifyVars: {
-        'primary-color': '#1DA57A'
-      },
       less: {
+        modifyVars: {
+          // Ant Design Vue 的样式变量
+          'font-size-base': '15px'
+        },
         // main.js => (import 'ant-design-vue/dist/antd.less')
         javascriptEnabled: true
       }
@@ -25,7 +26,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-    open: true,
+    open: false,
     proxy: {
       '^/api': {
         target: 'http://127.0.0.1:8000',

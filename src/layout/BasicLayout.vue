@@ -22,13 +22,16 @@ const selectedKeys = ref(['2'])
 .root-container {
   height: 100vh;
 }
+.ant-layout-header {
+  padding: 0 20px;
+}
 .header-container {
   position: fixed;
   width: 100%;
 }
 .main-container {
-  padding: 0 50px;
-  margin-top: 132px;
+  padding: 0 20px;
+  margin-top: 100px;
   overflow-y: auto;
 }
 .footer-container {

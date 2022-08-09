@@ -2,33 +2,32 @@
   <a-row justify="space-between">
     <a-col :span="22">
       <a-row>
-        <a-col :span="1"><img class="logo-img" src="@/assets/logo.png" alt="logo" /></a-col>
-        <a-col :span="1"><h1 class="logo-title">Candy</h1></a-col>
+        <a-col><img class="logo-img" src="@/assets/candy.svg" alt="logo" /></a-col>
+        <a-col><h1 class="logo-title">Candy</h1></a-col>
         <a-col :span="22">
           <MenuLayout :selected-keys="selectedKeys" />
         </a-col>
       </a-row>
     </a-col>
     <a-col :span="2">
-      <a-popover title="Hello Hashqueue!" placement="bottomRight" autoAdjustOverflow>
-        <template #content>
-          <a>
-            <p>Profile</p>
-          </a>
-          <a>
-            <p>Settings</p>
-          </a>
-          <a @click="logOut">
-            <p>Log out</p>
-          </a>
-        </template>
-        <a-avatar
-          shape="square"
-          src="https://joeschmoe.io/api/v1/random"
-          :size="32"
-          style="margin-left: 15px"
-        ></a-avatar>
-      </a-popover>
+      <a-row justify="end">
+        <a-col>
+          <a-popover title="Hello Hashqueue!" placement="bottomRight" autoAdjustOverflow>
+            <template #content>
+              <a>
+                <p>Profile</p>
+              </a>
+              <a>
+                <p>Settings</p>
+              </a>
+              <a @click="logOut">
+                <p>Log out</p>
+              </a>
+            </template>
+            <a-avatar class="avatar" shape="square" src="https://joeschmoe.io/api/v1/random" :size="32"></a-avatar>
+          </a-popover>
+        </a-col>
+      </a-row>
     </a-col>
   </a-row>
   <BreadcrumbLayout />
@@ -49,12 +48,17 @@ const logOut = () => {
 </script>
 
 <style scoped>
+.avatar {
+  margin-left: 15px;
+}
 .logo-img {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
 }
 .logo-title {
   color: #fff;
+  margin-left: 16px;
+  margin-right: 16px;
   font-weight: 600;
   font-size: 16px;
 }
