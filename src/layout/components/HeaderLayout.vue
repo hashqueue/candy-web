@@ -12,19 +12,16 @@
     <a-col :span="2">
       <a-row justify="end">
         <a-col>
-          <a-popover title="Hello Hashqueue!" placement="bottomRight" autoAdjustOverflow>
+          <a-popover :title="`Hello ${userInfo.username}!`" placement="bottomRight" autoAdjustOverflow>
             <template #content>
               <a>
-                <p>Profile</p>
-              </a>
-              <a>
-                <p>Settings</p>
+                <p>个人资料</p>
               </a>
               <a @click="logOut">
-                <p>Log out</p>
+                <p>登出</p>
               </a>
             </template>
-            <a-avatar class="avatar" shape="square" src="https://joeschmoe.io/api/v1/random" :size="32"></a-avatar>
+            <a-avatar class="avatar" shape="square" :src="userInfo.avatar" :size="32"></a-avatar>
           </a-popover>
         </a-col>
       </a-row>
@@ -35,14 +32,20 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { userStore } from '@/stores/user'
+import { removeAllItem } from '@/utils/storage'
 import MenuLayout from './MenuLayout.vue'
 import BreadcrumbLayout from './BreadcrumbLayout.vue'
 
+const userInfoStore = userStore()
+const userInfo = computed(() => userInfoStore.getUserInfo)
 const router = useRouter()
 const props = defineProps({
   selectedKeys: Array
 })
 const logOut = () => {
+  removeAllItem()
   router.push('/login')
 }
 </script>

@@ -11,6 +11,7 @@
       <a-tabs v-model:activeKey="activeKey" size="large" centered>
         <a-tab-pane key="login" tab="登录">
           <a-form
+            ref="loginFormRef"
             :model="loginForm"
             name="login"
             :rules="loginRules"
@@ -53,6 +54,7 @@
         </a-tab-pane>
         <a-tab-pane key="register" tab="注册">
           <a-form
+            ref="registerFormRef"
             :model="registerForm"
             name="register"
             :rules="registerRules"
@@ -124,9 +126,15 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue'
+import { login, register } from '@/apis/login'
+import { getUserInfo } from '@/apis/user'
+import { userStore } from '@/stores/user'
 
+const userInfoStore = userStore()
 const router = useRouter()
 const activeKey = ref('login')
+const loginFormRef = ref()
+const registerFormRef = ref()
 const loginForm = reactive({
   username: '',
   password: ''
@@ -149,24 +157,32 @@ const registerRules = {
 }
 
 const onLoginFinish = (values) => {
-  console.log('Success:', values)
-  if (values.username === 'admin' && values.password === '111111') {
-    router.push('/dashboard')
-  } else {
-    message.error('账号或密码错误!')
-  }
+  login(values).then((res) => {
+    userInfoStore.setToken(res.access)
+    // 获取用户信息持久化存储
+    getUserInfo(res.user_id).then((res) => {
+      userInfoStore.setUserInfo(res)
+      loginFormRef.value.resetFields()
+      router.push('/dashboard')
+    })
+  })
 }
 
 const onLoginFinishFailed = (errorInfo) => {
-  message.error('输入有误！')
+  message.error('输入有误.')
 }
 
 const onRegisterFinish = (values) => {
-  console.log('Success:', values)
+  register(values).then(() => {
+    loginForm.username = values.username
+    loginForm.password = values.password
+    registerFormRef.value.resetFields()
+    activeKey.value = 'login'
+  })
 }
 
 const onRegisterFinishFailed = (errorInfo) => {
-  message.error('输入有误！')
+  message.error('输入有误.')
 }
 </script>
 
