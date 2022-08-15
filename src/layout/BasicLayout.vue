@@ -1,7 +1,7 @@
 <template>
   <a-layout class="root-container">
     <a-layout-header class="header-container">
-      <HeaderLayout :selected-keys="selectedKeys" />
+      <HeaderLayout />
     </a-layout-header>
     <a-layout-content class="main-container">
       <ContentLayout />
@@ -11,11 +11,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import HeaderLayout from './components/HeaderLayout.vue'
 import ContentLayout from './components/ContentLayout.vue'
-
-const selectedKeys = ref(['2'])
 </script>
 
 <style scoped>

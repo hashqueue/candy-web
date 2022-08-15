@@ -1,6 +1,204 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import basicLayout from '@/layout/BasicLayout.vue'
+import BasicLayout from '@/layout/BasicLayout.vue'
+import { setItem } from '@/utils/storage'
 
+const routeIgnore = ['/login', '/404', '/403', '/500']
+/**
+ * 私有路由表
+ */
+const privateRoutes = [
+  {
+    path: '/systems',
+    component: BasicLayout,
+    redirect: '/users',
+    meta: {
+      title: '系统管理',
+      icon: 'appstore-outlined'
+    },
+    children: [
+      {
+        path: '/users',
+        redirect: '/users/list',
+        meta: {
+          title: '用户管理',
+          icon: 'appstore-outlined'
+        },
+        children: [
+          {
+            path: '/users/list',
+            component: () => import('@/views/system/user/UserList.vue'),
+            meta: {
+              title: '用户列表',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/users/create',
+            component: () => import('@/views/system/user/UserCreate.vue'),
+            meta: {
+              title: '新增用户',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/users/detail',
+            component: () => import('@/views/system/user/UserDetail.vue'),
+            meta: {
+              title: '用户详情',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/users/update',
+            component: () => import('@/views/system/user/UserUpdate.vue'),
+            meta: {
+              title: '修改用户',
+              icon: 'appstore-outlined'
+            }
+          }
+        ]
+      },
+      {
+        path: '/roles',
+        redirect: '/roles/list',
+        meta: {
+          title: '角色管理',
+          icon: 'appstore-outlined'
+        },
+        children: [
+          {
+            path: '/roles/list',
+            component: () => import('@/views/system/role/RoleList.vue'),
+            meta: {
+              title: '角色列表',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/roles/create',
+            component: () => import('@/views/system/role/RoleCreate.vue'),
+            meta: {
+              title: '新增角色',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/roles/detail',
+            component: () => import('@/views/system/role/RoleDetail.vue'),
+            meta: {
+              title: '角色详情',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/roles/update',
+            component: () => import('@/views/system/role/RoleUpdate.vue'),
+            meta: {
+              title: '修改角色',
+              icon: 'appstore-outlined'
+            }
+          }
+        ]
+      },
+      {
+        path: '/menus',
+        redirect: '/menus/list',
+        meta: {
+          title: '菜单管理',
+          icon: 'appstore-outlined'
+        },
+        children: [
+          {
+            path: '/menus/list',
+            component: () => import('@/views/system/menu/MenuList.vue'),
+            meta: {
+              title: '菜单列表',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/menus/create',
+            component: () => import('@/views/system/menu/MenuCreate.vue'),
+            meta: {
+              title: '新增菜单',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/menus/detail',
+            component: () => import('@/views/system/menu/MenuDetail.vue'),
+            meta: {
+              title: '菜单详情',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/menus/update',
+            component: () => import('@/views/system/menu/MenuUpdate.vue'),
+            meta: {
+              title: '修改菜单',
+              icon: 'appstore-outlined'
+            }
+          }
+        ]
+      },
+      {
+        path: '/permissions',
+        redirect: '/permissions/list',
+        meta: {
+          title: '权限管理',
+          icon: 'appstore-outlined'
+        },
+        children: [
+          {
+            path: '/permissions/list',
+            component: () => import('@/views/system/permission/PermissionList.vue'),
+            meta: {
+              title: '权限列表',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/permissions/create',
+            component: () => import('@/views/system/permission/PermissionCreate.vue'),
+            meta: {
+              title: '新增权限',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/permissions/detail',
+            component: () => import('@/views/system/permission/PermissionDetail.vue'),
+            meta: {
+              title: '权限详情',
+              icon: 'appstore-outlined'
+            }
+          },
+          {
+            path: '/permissions/update',
+            component: () => import('@/views/system/permission/PermissionUpdate.vue'),
+            meta: {
+              title: '修改权限',
+              icon: 'appstore-outlined'
+            }
+          }
+        ]
+      },
+      {
+        path: '/services-monitor',
+        component: () => import('@/views/system/service/ServiceMonitor.vue'),
+        meta: {
+          title: '服务监控',
+          icon: 'appstore-outlined'
+        }
+      }
+    ]
+  }
+]
+
+/**
+ * 公开路由表
+ */
 const publicRoutes = [
   {
     path: '/login',
@@ -9,9 +207,9 @@ const publicRoutes = [
   },
   {
     path: '/',
-    name: 'home',
-    component: basicLayout,
-    redirect: '/login',
+    name: 'index',
+    component: BasicLayout,
+    redirect: '/dashboard',
     children: [
       {
         path: '/dashboard',
@@ -19,9 +217,29 @@ const publicRoutes = [
         component: () => import(/* webpackChunkName: "profile" */ '@/views/dashboard/DashboardView.vue'),
         meta: {
           title: '工作台',
-          icon: 'dashboard',
+          icon: 'appstore-outlined',
           invisible: false
         }
+      },
+      {
+        path: '/404',
+        name: '404',
+        component: () => import('@/views/error-page/Exc404View.vue')
+      },
+      {
+        path: '/403',
+        name: '403',
+        component: () => import('@/views/error-page/Exc403View.vue')
+      },
+      {
+        path: '/500',
+        name: '500',
+        component: () => import('@/views/error-page/Exc500View.vue')
+      },
+      {
+        path: '/:pathMatch(.*)*',
+        // 访问未在路由表中定义的路径则重定向到404页面
+        redirect: '/404'
       }
     ]
   }
@@ -29,7 +247,15 @@ const publicRoutes = [
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: publicRoutes
+  routes: [...publicRoutes, ...privateRoutes]
+})
+
+router.afterEach((to, from) => {
+  if (!routeIgnore.includes(to.path)) {
+    setItem('systemSetting', JSON.stringify({ menuSelectedKeys: [to.path] }))
+  }
+  console.log(to)
+  console.log(from)
 })
 
 export default router

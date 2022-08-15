@@ -35,7 +35,7 @@ import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { userStore } from '@/stores/user'
 import { removeAllItem } from '@/utils/storage'
-import MenuLayout from './MenuLayout.vue'
+import MenuLayout from './menu/MenuLayout.vue'
 import BreadcrumbLayout from './BreadcrumbLayout.vue'
 
 const userInfoStore = userStore()
