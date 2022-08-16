@@ -9,7 +9,7 @@ const privateRoutes = [
   {
     path: '/systems',
     component: BasicLayout,
-    redirect: '/users',
+    redirect: '/services-monitor',
     meta: {
       title: '系统管理',
       icon: 'appstore-outlined'
@@ -216,7 +216,7 @@ const publicRoutes = [
         component: () => import(/* webpackChunkName: "profile" */ '@/views/dashboard/DashboardView.vue'),
         meta: {
           title: '工作台',
-          icon: 'appstore-outlined',
+          icon: 'dashboard-outlined',
           invisible: false
         }
       },
