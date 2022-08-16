@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import BasicLayout from '@/layout/BasicLayout.vue'
-import { setItem } from '@/utils/storage'
 
 const routeIgnore = ['/login', '/404', '/403', '/500']
 /**
@@ -250,12 +249,9 @@ const router = createRouter({
   routes: [...publicRoutes, ...privateRoutes]
 })
 
-router.afterEach((to, from) => {
-  if (!routeIgnore.includes(to.path)) {
-    setItem('systemSetting', JSON.stringify({ menuSelectedKeys: [to.path] }))
-  }
-  console.log(to)
-  console.log(from)
-})
+// router.afterEach((to, from) => {
+//   console.log(to)
+//   console.log(from)
+// })
 
 export default router

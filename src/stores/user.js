@@ -4,13 +4,11 @@ export const userStore = defineStore({
   id: 'userSetting',
   state: () => ({
     userInfo: null,
-    token: null,
-    menuSelectedKeys: []
+    token: null
   }),
   getters: {
     getUserInfo: (state) => state.userInfo,
-    getToken: (state) => state.token,
-    getMenuSelectedKeys: (state) => state.menuSelectedKeys
+    getToken: (state) => state.token
   },
   actions: {
     setUserInfo(userInfo) {
@@ -18,9 +16,6 @@ export const userStore = defineStore({
     },
     setToken(token) {
       this.token = token
-    },
-    setMenuSelectedKeys(keys) {
-      this.menuSelectedKeys = keys
     }
   },
   // 开启数据缓存

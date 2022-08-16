@@ -1,7 +1,6 @@
 <template>
   <!-- 一级menu菜单 -->
   <a-menu class="menu-container" theme="dark" mode="horizontal" @click="clickMenuItem" :selectedKeys="selectedKeys">
-    <!--    <SubMenuItem v-for="item in routes" :route="item" />-->
     <template v-for="item in routes" :key="item.path">
       <template v-if="item.children.length === 0">
         <a-menu-item :key="item.path">
@@ -21,14 +20,13 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { filterRouters, generateMenus } from '@/utils/route'
-import { systemStore } from '@/stores/system'
 import SubMenuItem from './SubMenuItem.vue'
 
 const router = useRouter()
-const systemInfoStore = systemStore()
-const selectedKeys = computed(() => systemInfoStore.getMenuSelectedKeys)
+const route = useRoute()
+const selectedKeys = computed(() => [route.path])
 const routes = computed(() => {
   const filterRoutes = filterRouters(router.getRoutes())
   return generateMenus(filterRoutes)
@@ -37,7 +35,6 @@ const routes = computed(() => {
 const clickMenuItem = ({ item, key, keyPath }) => {
   // console.log(key)
   router.push(key)
-  systemInfoStore.setMenuSelectedKeys([key])
 }
 </script>
 

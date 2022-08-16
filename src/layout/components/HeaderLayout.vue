@@ -12,14 +12,10 @@
     <a-col :span="2">
       <a-row justify="end">
         <a-col>
-          <a-popover :title="`Hello ${userInfo.username}!`" placement="bottomRight" autoAdjustOverflow>
+          <a-popover :title="`Hello ${userInfo.username}!`">
             <template #content>
-              <a>
-                <p>个人资料</p>
-              </a>
-              <a @click="logOut">
-                <p>登出</p>
-              </a>
+              <p><a>个人资料</a></p>
+              <p><a @click="logOut">登出</a></p>
             </template>
             <a-avatar class="avatar" shape="square" :src="userInfo.avatar" :size="32"></a-avatar>
           </a-popover>
@@ -54,10 +50,12 @@ const logOut = () => {
 .avatar {
   margin-left: 15px;
 }
+
 .logo-img {
   width: 36px;
   height: 36px;
 }
+
 .logo-title {
   color: #fff;
   margin-left: 16px;

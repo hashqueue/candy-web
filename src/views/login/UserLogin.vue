@@ -130,7 +130,7 @@ import { login, register } from '@/apis/login'
 import { getUserInfo } from '@/apis/user'
 import { userStore } from '@/stores/user'
 
-const userInfoStore = userStore()
+const userSettingStore = userStore()
 const router = useRouter()
 const activeKey = ref('login')
 const loginFormRef = ref()
@@ -158,10 +158,10 @@ const registerRules = {
 
 const onLoginFinish = (values) => {
   login(values).then((res) => {
-    userInfoStore.setToken(res.access)
+    userSettingStore.setToken(res.access)
     // 获取用户信息持久化存储
     getUserInfo(res.user_id).then((res) => {
-      userInfoStore.setUserInfo(res)
+      userSettingStore.setUserInfo(res)
       loginFormRef.value.resetFields()
       router.push('/dashboard')
     })
