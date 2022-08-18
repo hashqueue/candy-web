@@ -5,7 +5,7 @@
         <a-col><img class="logo-img" src="@/assets/candy.svg" alt="logo" /></a-col>
         <a-col><h1 class="logo-title">Candy</h1></a-col>
         <a-col :span="22">
-          <MenuLayout :selected-keys="selectedKeys" />
+          <MenuLayout />
         </a-col>
       </a-row>
     </a-col>
@@ -37,9 +37,6 @@ import BreadcrumbLayout from './BreadcrumbLayout.vue'
 const userInfoStore = userStore()
 const userInfo = computed(() => userInfoStore.getUserInfo)
 const router = useRouter()
-const props = defineProps({
-  selectedKeys: Array
-})
 const logOut = () => {
   removeAllItem()
   router.push('/login')

@@ -22,18 +22,29 @@ const getBreadcrumbData = () => {
 }
 // 监听路由变化时触发
 watch(
-  route,
+  () => route.path,
   () => {
     getBreadcrumbData()
   },
   {
+    // 在侦听器创建时立即触发回调. 第一次调用时旧值是undefined
     immediate: true
   }
 )
 const onLinkClick = (item) => {
-  console.log(item)
   router.push(item.path)
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.no-redirect {
+  color: #97a8be;
+}
+.redirect {
+  color: #666;
+  font-weight: 600;
+}
+.redirect:hover {
+  color: #1890ff;
+}
+</style>
