@@ -6,3 +6,10 @@ export const getUserInfo = (userId) => {
     method: 'GET'
   })
 }
+
+export const getUserProfile = () => {
+  return request({
+    url: `/system/users/profile/`,
+    method: 'GET'
+  })
+}

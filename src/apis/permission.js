@@ -1,9 +1,8 @@
 import request from '@/utils/request'
 
-export const getRolesPermissions = (data) => {
+export const getUserPermissions = () => {
   return request({
-    url: '/system/permissions/get-roles-permissions/',
-    method: 'POST',
-    data
+    url: '/system/permissions/get-user-permissions/',
+    method: 'GET'
   })
 }

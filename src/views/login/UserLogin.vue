@@ -127,7 +127,6 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { login, register } from '@/apis/login'
-import { getUserInfo } from '@/apis/user'
 import { userStore } from '@/stores/user'
 
 const userSettingStore = userStore()
@@ -159,12 +158,8 @@ const registerRules = {
 const onLoginFinish = (values) => {
   login(values).then((res) => {
     userSettingStore.setToken(res.access)
-    // 获取用户信息持久化存储
-    getUserInfo(res.user_id).then((res) => {
-      userSettingStore.setUserInfo(res)
-      loginFormRef.value.resetFields()
-      router.push('/dashboard')
-    })
+    loginFormRef.value.resetFields()
+    router.push('/dashboard')
   })
 }
 

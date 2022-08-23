@@ -31,28 +31,22 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { computed, ref } from 'vue'
-import { userStore } from '@/stores/user'
+import { ref } from 'vue'
 import { removeAllItem } from '@/utils/storage'
 import MenuLayout from './menu/MenuLayout.vue'
 import BreadcrumbLayout from './BreadcrumbLayout.vue'
 import ScreenfullView from '@/components/ScreenfullView.vue'
-import { getRolesPermissions } from '@/apis/permission'
+import { getUserProfile } from '@/apis/user'
 
 const router = useRouter()
-const role_ids = ref([])
-const userInfoStore = userStore()
-const userInfo = computed(() => userInfoStore.getUserInfo)
+const userInfo = ref({
+  username: '',
+  avatar: ''
+})
 
-const getUserPermissions = () => {
-  for (const role of userInfo.value.roles) {
-    role_ids.value.push(role.id)
-  }
-  getRolesPermissions({ role_ids: role_ids.value }).then((res) => {
-    console.log(res)
-  })
-}
-getUserPermissions()
+getUserProfile().then((res) => {
+  userInfo.value = res
+})
 const logOut = () => {
   removeAllItem()
   router.push('/login')

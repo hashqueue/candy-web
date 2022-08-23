@@ -23,6 +23,7 @@ import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { filterRouters, generateMenus } from '@/utils/route'
 import SubMenuItem from './SubMenuItem.vue'
+import { getUserPermissions } from '@/apis/permission'
 
 const router = useRouter()
 const route = useRoute()
@@ -32,6 +33,9 @@ const routes = computed(() => {
   return generateMenus(filterRoutes)
 })
 
+getUserPermissions().then((res) => {
+  console.log('UserPermissions', res)
+})
 const clickMenuItem = ({ item, key, keyPath }) => {
   // console.log(key)
   router.push(key)
