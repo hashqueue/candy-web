@@ -17,8 +17,8 @@
         <a-col>
           <a-popover :title="`Hello ${userInfo.username}!`">
             <template #content>
-              <p><a>个人资料</a></p>
-              <p><a @click="logOut">登出</a></p>
+              <p class="popover-option"><a @click="showUserInfo">个人资料</a></p>
+              <p class="popover-option"><a @click="logOut">登出</a></p>
             </template>
             <a-avatar class="avatar" shape="square" :src="userInfo.avatar" :size="32"></a-avatar>
           </a-popover>
@@ -51,9 +51,15 @@ const logOut = () => {
   removeAllItem()
   router.push('/login')
 }
+const showUserInfo = () => {
+  router.push('/userProfile')
+}
 </script>
 
 <style scoped>
+.popover-option {
+  margin-bottom: 5px;
+}
 .avatar {
   margin-left: 15px;
   cursor: pointer;

@@ -6,7 +6,7 @@
     :sub-title="descriptionData[status].subTitle"
   >
     <template #extra>
-      <a-button type="primary" @click="router.push('/dashboard')">返回首页</a-button>
+      <a-button type="primary" @click="router.push('/')">返回首页</a-button>
     </template>
   </a-result>
 </template>

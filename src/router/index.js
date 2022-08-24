@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import BasicLayout from '@/layout/BasicLayout.vue'
 
-const routeIgnore = ['/login', '/404', '/403', '/500']
+const routeIgnore = ['/login', '/404', '/403', '/500', '/userProfile', '/dashboard']
 /**
  * 私有路由表
  */
@@ -9,7 +9,7 @@ const privateRoutes = [
   {
     path: '/systems',
     component: BasicLayout,
-    redirect: '/services-monitor',
+    redirect: '/servicesMonitor',
     meta: {
       title: '系统管理',
       icon: 'appstore-outlined'
@@ -184,7 +184,7 @@ const privateRoutes = [
         ]
       },
       {
-        path: '/services-monitor',
+        path: '/servicesMonitor',
         component: () => import('@/views/system/service/ServiceMonitor.vue'),
         meta: {
           title: '服务监控',
@@ -219,6 +219,11 @@ const publicRoutes = [
           icon: 'dashboard-outlined',
           invisible: false
         }
+      },
+      {
+        path: '/userProfile',
+        name: 'userProfile',
+        component: () => import(/* webpackChunkName: "profile" */ '@/views/system/user/UserProfile.vue')
       },
       {
         path: '/404',
