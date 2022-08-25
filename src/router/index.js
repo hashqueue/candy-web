@@ -217,13 +217,19 @@ const publicRoutes = [
         meta: {
           title: '工作台',
           icon: 'dashboard-outlined',
+          // 控制是否显示在菜单栏中
           invisible: false
         }
       },
       {
         path: '/userProfile',
         name: 'userProfile',
-        component: () => import(/* webpackChunkName: "profile" */ '@/views/system/user/UserProfile.vue')
+        component: () => import(/* webpackChunkName: "profile" */ '@/views/system/user/UserProfile.vue'),
+        meta: {
+          title: '个人中心',
+          // icon: 'dashboard-outlined',
+          invisible: true
+        }
       },
       {
         path: '/404',

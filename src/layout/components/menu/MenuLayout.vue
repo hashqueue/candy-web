@@ -34,7 +34,7 @@ const routes = computed(() => {
 })
 
 getUserPermissions().then((res) => {
-  console.log('UserPermissions', res)
+  // console.log('UserPermissions', res)
 })
 const clickMenuItem = ({ item, key, keyPath }) => {
   // console.log(key)

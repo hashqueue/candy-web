@@ -13,3 +13,19 @@ export const getUserProfile = () => {
     method: 'GET'
   })
 }
+
+export const resetUserPassword = (data) => {
+  return request({
+    url: `/system/users/reset-password/`,
+    method: 'POST',
+    data
+  })
+}
+
+export const updateUserInfo = (userId, data) => {
+  return request({
+    url: `/system/users/${userId}/`,
+    method: 'PUT',
+    data
+  })
+}

@@ -17,7 +17,7 @@
         <a-col>
           <a-popover :title="`Hello ${userInfo.username}!`">
             <template #content>
-              <p class="popover-option"><a @click="showUserInfo">个人资料</a></p>
+              <p class="popover-option"><a @click="showUserInfo">个人中心</a></p>
               <p class="popover-option"><a @click="logOut">登出</a></p>
             </template>
             <a-avatar class="avatar" shape="square" :src="userInfo.avatar" :size="32"></a-avatar>
