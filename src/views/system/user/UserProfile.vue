@@ -10,7 +10,7 @@
         <unlock-outlined @click="resetPassword" />
       </a-tooltip>
     </template>
-    <a-card-meta title="个人资料" description="干饭人, 干饭魂, 干饭人吃饭得用盆~">
+    <a-card-meta title="个人资料" description="干饭人, 干饭魂, 干饭人干饭得用盆~">
       <template #avatar v-if="userInfo !== null">
         <a-avatar :size="96" shape="square" :src="userInfo.avatar" />
       </template>
@@ -23,7 +23,8 @@
       <a-descriptions-item label="性别">{{ userInfo.gender === 'male' ? '男' : '女' }}</a-descriptions-item>
       <a-descriptions-item label="手机号">{{ userInfo.mobile }}</a-descriptions-item>
       <a-descriptions-item label="职位">{{ userInfo.position }}</a-descriptions-item>
-      <a-descriptions-item label="部门">{{ userInfo.department.name }}</a-descriptions-item>
+      <!-- TODO: 待后端功能完全实现后此处的v-if可以移除 -->
+      <a-descriptions-item label="部门" v-if="userInfo.department">{{ userInfo.department.name }}</a-descriptions-item>
       <a-descriptions-item label="加入时间">{{ userInfo.date_joined }}</a-descriptions-item>
       <a-descriptions-item label="角色">
         <template v-for="(role, index) in userInfo.roles" :key="index">
@@ -109,8 +110,9 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
 import { EditOutlined, UnlockOutlined } from '@ant-design/icons-vue'
-import { getUserProfile, resetUserPassword, updateUserInfo } from '@/apis/user'
+import { getUserProfile, resetUserPassword, updateUserProfile } from '@/apis/user'
 import { removeAllItem } from '@/utils/storage'
 
 const userInfo = ref(null)
@@ -171,6 +173,7 @@ const onResetOk = () => {
     .validateFields()
     .then((values) => {
       resetUserPassword(values).then(() => {
+        message.success('您已成功修改密码, 请重新登录!')
         resetVisible.value = false
         resetFormRef.value.resetFields()
         // 导航到登录页面，并清除token
@@ -189,7 +192,7 @@ const onUpdateOk = () => {
   updateFormRef.value
     .validateFields()
     .then((values) => {
-      updateUserInfo(userInfo.value.id, values).then(() => {
+      updateUserProfile(values).then(() => {
         // 重新获取一遍用户信息
         getUserInfo()
         updateVisible.value = false

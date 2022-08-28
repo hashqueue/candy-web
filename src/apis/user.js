@@ -22,9 +22,17 @@ export const resetUserPassword = (data) => {
   })
 }
 
-export const updateUserInfo = (userId, data) => {
+export const updateUserInfoWithUserId = (userId, data) => {
   return request({
     url: `/system/users/${userId}/`,
+    method: 'PUT',
+    data
+  })
+}
+
+export const updateUserProfile = (data) => {
+  return request({
+    url: `/system/users/update-profile/`,
     method: 'PUT',
     data
   })
