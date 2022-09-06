@@ -29,7 +29,7 @@ import ContentLayout from './components/ContentLayout.vue'
 }
 .main-container {
   padding: 0 20px;
-  margin-top: 100px;
+  margin-top: 120px;
   overflow-y: auto;
 }
 .footer-container {

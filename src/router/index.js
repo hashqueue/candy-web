@@ -100,46 +100,12 @@ const privateRoutes = [
         ]
       },
       {
-        path: '/menus',
-        redirect: '/menus/list',
+        path: '/organizations/list',
+        component: () => import('@/views/system/organization/OrganizationList.vue'),
         meta: {
-          title: '菜单管理',
+          title: '部门列表',
           icon: 'appstore-outlined'
-        },
-        children: [
-          {
-            path: '/menus/list',
-            component: () => import('@/views/system/menu/MenuList.vue'),
-            meta: {
-              title: '菜单列表',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/menus/create',
-            component: () => import('@/views/system/menu/MenuCreate.vue'),
-            meta: {
-              title: '新增菜单',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/menus/detail',
-            component: () => import('@/views/system/menu/MenuDetail.vue'),
-            meta: {
-              title: '菜单详情',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/menus/update',
-            component: () => import('@/views/system/menu/MenuUpdate.vue'),
-            meta: {
-              title: '修改菜单',
-              icon: 'appstore-outlined'
-            }
-          }
-        ]
+        }
       },
       {
         path: '/permissions',
@@ -217,7 +183,7 @@ const publicRoutes = [
         meta: {
           title: '工作台',
           icon: 'dashboard-outlined',
-          // 控制是否显示在菜单栏中
+          // 控制是否显示在部门栏中
           invisible: false
         }
       },
