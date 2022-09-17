@@ -56,7 +56,7 @@ service.interceptors.response.use(
     // console.log(response)
     const { code, data, message } = response.data
     // TODO 此处的业务状态码需要根据后端进行配置
-    if (code === 20000 || code === 200) {
+    if (code === 20000 || code === 200 || response.status === 204) {
       antMessage.success(message || REQUEST_API_SUCCESS)
       return data
     } else {
@@ -73,6 +73,9 @@ service.interceptors.response.use(
     // console.log(error.isAxiosError)
     // console.log(error.toJSON)
     console.log(error)
+    if (error.response.status === 401) {
+      redirectToLogin()
+    }
     antMessage.error(error.response.data.message || error.message, 6)
     return Promise.reject(error)
   }

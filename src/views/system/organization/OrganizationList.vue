@@ -1,6 +1,6 @@
 <template>
-  <a-button class="add-btn" type="primary" @click="addOrganization">新增</a-button>
-  <a-table :columns="columns" :data-source="dataList">
+  <a-button class="add-btn" type="primary" @click="createRootOrganization">新增根组织架构</a-button>
+  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered>
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'type'">
         <a-tag :color="record.type === 'company' ? 'geekblue' : 'green'">
@@ -9,25 +9,51 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a>修改</a>
+          <a @click="createSubOrganization(record)">添加子组织架构</a>
           <a-divider type="vertical" />
-          <a>删除</a>
+          <a @click="updateOrganization(record)">修改</a>
+          <a-divider type="vertical" />
+          <a @click="deleteOrganization(record.id)">删除</a>
           <a-divider type="vertical" />
         </span>
       </template>
     </template>
   </a-table>
+  <organization-create-update-form
+    :visible="visible"
+    :title="title"
+    :organization-id="organizationId"
+    @close-modal="closeModal"
+    @get-latest-organization-list="getLatestOrganizationList"
+  />
+  <a-modal v-model:visible="delVisible" title="提示" @ok="handleDeleteOk">
+    <p>
+      <exclamation-circle-two-tone
+        :style="{ fontSize: '17px', marginRight: '10px' }"
+        two-tone-color="#FF0000"
+      />此操作将删除该组织架构下所有的数据，是否继续？
+    </p>
+  </a-modal>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { getOrganizationList } from '@/apis/organization'
+import { getOrganizationTreeList, deleteOrganizationDetail } from '@/apis/organization'
+import OrganizationCreateUpdateForm from './OrganizationCreateUpdateForm.vue'
 
 const dataList = ref([])
-getOrganizationList().then((res) => {
-  dataList.value = res.results
-})
+const visible = ref(false)
+const delVisible = ref(false)
+const delOrganizationId = ref(undefined)
+const title = ref('新增根组织架构')
+const organizationId = ref(null)
 
+const getOrganizationTreeListData = () => {
+  getOrganizationTreeList().then((res) => {
+    dataList.value = res.results
+  })
+}
+getOrganizationTreeListData()
 const columns = [
   {
     title: '名称',
@@ -55,7 +81,38 @@ const columns = [
   }
 ]
 
-const addOrganization = () => {}
+const createRootOrganization = () => {
+  title.value = '新增根组织架构'
+  visible.value = true
+}
+const closeModal = () => {
+  title.value = '新增根组织架构'
+  visible.value = false
+}
+const getLatestOrganizationList = () => {
+  getOrganizationTreeListData()
+}
+const createSubOrganization = (record) => {
+  organizationId.value = record.id
+  title.value = '添加子组织架构'
+  visible.value = true
+}
+const updateOrganization = (record) => {
+  organizationId.value = record.id
+  title.value = '修改组织架构'
+  visible.value = true
+}
+const handleDeleteOk = () => {
+  deleteOrganizationDetail(delOrganizationId.value).then(() => {
+    delVisible.value = false
+    getOrganizationTreeListData()
+  })
+}
+const deleteOrganization = (organizationId) => {
+  // console.log(organizationId)
+  delVisible.value = true
+  delOrganizationId.value = organizationId
+}
 </script>
 
 <style scoped>
