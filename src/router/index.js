@@ -108,47 +108,31 @@ const privateRoutes = [
         }
       },
       {
-        path: '/permissions',
-        redirect: '/permissions/list',
+        path: '/permissions/list',
+        component: () => import('@/views/system/permission/PermissionList.vue'),
         meta: {
-          title: '权限管理',
+          title: '权限列表',
           icon: 'appstore-outlined'
-        },
-        children: [
-          {
-            path: '/permissions/list',
-            component: () => import('@/views/system/permission/PermissionList.vue'),
-            meta: {
-              title: '权限列表',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/permissions/create',
-            component: () => import('@/views/system/permission/PermissionCreate.vue'),
-            meta: {
-              title: '新增权限',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/permissions/detail',
-            component: () => import('@/views/system/permission/PermissionDetail.vue'),
-            meta: {
-              title: '权限详情',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/permissions/update',
-            component: () => import('@/views/system/permission/PermissionUpdate.vue'),
-            meta: {
-              title: '修改权限',
-              icon: 'appstore-outlined'
-            }
-          }
-        ]
+        }
       },
+      // {
+      //   path: '/permissions',
+      //   redirect: '/permissions/list',
+      //   meta: {
+      //     title: '权限管理',
+      //     icon: 'appstore-outlined'
+      //   },
+      //   children: [
+      //     {
+      //       path: '/permissions/list',
+      //       component: () => import('@/views/system/permission/PermissionList.vue'),
+      //       meta: {
+      //         title: '权限列表',
+      //         icon: 'appstore-outlined'
+      //       }
+      //     }
+      //   ]
+      // },
       {
         path: '/servicesMonitor',
         component: () => import('@/views/system/service/ServiceMonitor.vue'),
