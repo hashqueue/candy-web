@@ -1,5 +1,13 @@
 <template>
-  <a-modal v-model:visible="visible" :title="title" ok-text="提交" cancel-text="取消" @ok="onOk" @cancel="onCancel">
+  <a-modal
+    v-model:visible="visible"
+    :width="600"
+    :title="title"
+    ok-text="提交"
+    cancel-text="取消"
+    @ok="onOk"
+    @cancel="onCancel"
+  >
     <a-form
       ref="createUpdateFormRef"
       :model="createUpdateForm"
@@ -57,7 +65,7 @@ const createUpdateForm = ref({
   parent: undefined
 })
 const createUpdateFormRef = ref()
-const labelCol = { span: 5 }
+const labelCol = { span: 4 }
 const wrapperCol = { span: 20 }
 const typeOptions = ref([
   {
@@ -71,7 +79,10 @@ const typeOptions = ref([
 ])
 const parentOptions = ref([])
 const createUpdateRules = {
-  name: [{ required: true, trigger: 'change', message: '组织架构名称不能为空!' }],
+  name: [
+    { required: true, trigger: 'change', message: '组织架构名称不能为空!' },
+    { max: 128, trigger: 'change', message: '组织架构名称不能多于128位!' }
+  ],
   type: [{ required: true, trigger: 'change', message: '组织架构类型不能为空!' }]
 }
 

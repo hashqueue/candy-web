@@ -16,24 +16,14 @@ PermissionCreate.vue
           {{ record.icon }}
         </a-tag>
       </template>
-      <template v-else-if="column.key === 'component_path'">
-        <a-tag color="geekblue" v-if="record.component_path">
-          {{ record.component_path }}
-        </a-tag>
-      </template>
       <template v-else-if="column.key === 'is_visible'">
-        <a-tag :color="record.is_menu ? 'geekblue' : 'red'" v-if="record.is_visible">
+        <a-tag color="geekblue" v-if="record.is_menu">
           {{ record.is_visible ? '是' : '否' }}
         </a-tag>
       </template>
       <template v-else-if="column.key === 'method'">
         <a-tag color="green" v-if="record.method">
           {{ record.method }}
-        </a-tag>
-      </template>
-      <template v-else-if="column.key === 'url_path'">
-        <a-tag color="green" v-if="record.url_path">
-          {{ record.url_path }}
         </a-tag>
       </template>
       <template v-else-if="column.key === 'action'">
@@ -48,13 +38,13 @@ PermissionCreate.vue
       </template>
     </template>
   </a-table>
-  <!--  <organization-create-update-form-->
-  <!--    :visible="visible"-->
-  <!--    :title="title"-->
-  <!--    :organization-id="organizationId"-->
-  <!--    @close-modal="closeModal"-->
-  <!--    @get-latest-organization-list="getLatestPermissionList"-->
-  <!--  />-->
+  <permission-create-update-form
+    :visible="visible"
+    :title="title"
+    :permission-id="permissionId"
+    @close-modal="closeModal"
+    @get-latest-permission-list="getLatestPermissionList"
+  />
   <a-modal v-model:visible="delVisible" title="提示" @ok="handleDeleteOk">
     <p>
       <exclamation-circle-two-tone
@@ -68,14 +58,14 @@ PermissionCreate.vue
 <script setup>
 import { ref } from 'vue'
 import { getPermissionTreeList, deletePermissionDetail } from '@/apis/permission'
-// import PermissionCreateUpdateForm from './PermissionCreateUpdateForm.vue'
+import PermissionCreateUpdateForm from './PermissionCreateUpdateForm.vue'
 
 const dataList = ref([])
 const visible = ref(false)
 const delVisible = ref(false)
 const delPermissionId = ref(undefined)
 const title = ref('新增根权限')
-const organizationId = ref(null)
+const permissionId = ref(null)
 
 const getPermissionTreeListData = () => {
   getPermissionTreeList().then((res) => {
@@ -86,8 +76,8 @@ getPermissionTreeListData()
 const columns = [
   {
     title: '名称',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'title',
+    key: 'title'
   },
   {
     title: '类型',
@@ -100,9 +90,19 @@ const columns = [
     key: 'icon'
   },
   {
+    title: '路由path',
+    dataIndex: 'path',
+    key: 'path'
+  },
+  {
+    title: '路由重定向path',
+    dataIndex: 'redirect',
+    key: 'redirect'
+  },
+  {
     title: '组件路径',
-    dataIndex: 'component_path',
-    key: 'component_path'
+    dataIndex: 'component',
+    key: 'component'
   },
   {
     title: '是否显示',
@@ -118,16 +118,6 @@ const columns = [
     title: '请求路径',
     dataIndex: 'url_path',
     key: 'url_path'
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    key: 'create_time'
-  },
-  {
-    title: '修改时间',
-    dataIndex: 'update_time',
-    key: 'update_time'
   },
   {
     title: '操作',
@@ -147,12 +137,12 @@ const getLatestPermissionList = () => {
   getPermissionTreeListData()
 }
 const createSubPermission = (record) => {
-  organizationId.value = record.id
+  permissionId.value = record.id
   title.value = '添加子权限'
   visible.value = true
 }
 const updatePermission = (record) => {
-  organizationId.value = record.id
+  permissionId.value = record.id
   title.value = '修改权限'
   visible.value = true
 }
@@ -162,10 +152,10 @@ const handleDeleteOk = () => {
     getPermissionTreeListData()
   })
 }
-const deletePermission = (organizationId) => {
-  // console.log(organizationId)
+const deletePermission = (permissionId) => {
+  // console.log(permissionId)
   delVisible.value = true
-  delPermissionId.value = organizationId
+  delPermissionId.value = permissionId
 }
 </script>
 

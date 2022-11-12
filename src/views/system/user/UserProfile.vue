@@ -10,7 +10,7 @@
         <unlock-outlined @click="resetPassword" />
       </a-tooltip>
     </template>
-    <a-card-meta title="个人资料" description="干饭人, 干饭魂, 干饭人干饭得用盆~">
+    <a-card-meta title="个人资料" description="心之所向，素履以往~">
       <template #avatar v-if="userInfo !== null">
         <a-avatar :size="96" shape="square" :src="userInfo.avatar" />
       </template>
@@ -158,8 +158,23 @@ const resetRules = {
   ]
 }
 const updateRules = {
-  username: [{ required: true, trigger: 'change', message: '用户名不能为空!' }],
-  email: [{ required: true, trigger: 'change', message: '邮箱不能为空!' }]
+  username: [
+    { required: true, trigger: 'change', message: '用户名不能为空!' },
+    { max: 150, trigger: 'change', message: '用户名不能多于150位!' }
+  ],
+  email: [
+    { required: true, trigger: 'change', message: '邮箱不能为空!' },
+    { max: 254, trigger: 'change', message: '邮箱不能多于254位!' }
+  ],
+  name: [
+    { required: true, trigger: 'change', message: '姓名不能为空!' },
+    { max: 20, trigger: 'change', message: '姓名不能多于20位!' }
+  ],
+  mobile: [
+    { min: 11, trigger: 'change', message: '手机号码不能少于11位!' },
+    { max: 11, trigger: 'change', message: '手机号码不能多于11位!' }
+  ],
+  position: [{ max: 64, trigger: 'change', message: '职位不能多于64位!' }]
 }
 
 const editProfile = () => {

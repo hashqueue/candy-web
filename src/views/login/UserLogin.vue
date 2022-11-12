@@ -5,7 +5,7 @@
         <img alt="logo" class="logo" src="@/assets/candy.svg" />
         <span class="title">Candy Admin</span>
       </div>
-      <div class="desc">Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+      <div class="desc">基于Django3 + Vue3 + MySQL8 以进行二次开发的Admin脚手架</div>
     </div>
     <div class="login-box">
       <a-tabs v-model:activeKey="activeKey" size="large" centered>
@@ -149,10 +149,25 @@ const loginRules = {
   password: [{ required: true, trigger: 'change', message: '密码不能为空.' }]
 }
 const registerRules = {
-  username: [{ required: true, trigger: 'change', message: '用户名不能为空.' }],
-  password: [{ required: true, trigger: 'change', message: '密码不能为空.' }],
-  email: [{ required: true, trigger: 'change', message: '邮箱地址不能为空.' }],
-  password_confirm: [{ required: true, trigger: 'change', message: '确认密码不能为空.' }]
+  username: [
+    { required: true, trigger: 'change', message: '用户名不能为空.' },
+    { min: 1, trigger: 'change', message: '用户名不能少于1位!' },
+    { max: 150, trigger: 'change', message: '用户名不能多于150位!' }
+  ],
+  password: [
+    { required: true, trigger: 'change', message: '密码不能为空.' },
+    { min: 8, trigger: 'change', message: '密码不能少于8位!' },
+    { max: 128, trigger: 'change', message: '密码不能多于128位!' }
+  ],
+  email: [
+    { required: true, trigger: 'change', message: '邮箱地址不能为空.' },
+    { max: 254, trigger: 'change', message: '用户名不能多于254位!' }
+  ],
+  password_confirm: [
+    { required: true, trigger: 'change', message: '确认密码不能为空.' },
+    { min: 8, trigger: 'change', message: '确认密码不能少于8位!' },
+    { max: 128, trigger: 'change', message: '确认密码不能多于128位!' }
+  ]
 }
 
 const onLoginFinish = (values) => {
