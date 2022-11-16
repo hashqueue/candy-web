@@ -1,7 +1,7 @@
 PermissionCreate.vue
 <template>
   <a-button class="add-btn" type="primary" @click="createRootPermission">新增根权限</a-button>
-  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered>
+  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered :scroll="{ x: '100%', y: '100%' }">
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'is_menu'">
         <a-tag :color="record.is_menu ? 'geekblue' : 'green'">
@@ -33,7 +33,6 @@ PermissionCreate.vue
           <a @click="updatePermission(record)">修改</a>
           <a-divider type="vertical" />
           <a @click="deletePermission(record.id)">删除</a>
-          <a-divider type="vertical" />
         </span>
       </template>
     </template>
@@ -77,51 +76,63 @@ const columns = [
   {
     title: '名称',
     dataIndex: 'title',
-    key: 'title'
+    key: 'title',
+    width: 350,
+    fixed: 'left'
   },
   {
     title: '类型',
     dataIndex: 'is_menu',
+    width: 70,
     key: 'is_menu'
   },
   {
     title: '图标',
     dataIndex: 'icon',
+    width: 250,
     key: 'icon'
   },
   {
     title: '路由path',
     dataIndex: 'path',
+    width: 250,
     key: 'path'
   },
   {
     title: '路由重定向path',
     dataIndex: 'redirect',
+    width: 200,
     key: 'redirect'
   },
   {
     title: '组件路径',
     dataIndex: 'component',
+    width: 500,
     key: 'component'
   },
   {
     title: '是否显示',
     dataIndex: 'is_visible',
+    width: 100,
     key: 'is_visible'
   },
   {
     title: '请求方法',
     dataIndex: 'method',
+    width: 100,
     key: 'method'
   },
   {
     title: '请求路径',
     dataIndex: 'url_path',
+    width: 400,
     key: 'url_path'
   },
   {
     title: '操作',
-    key: 'action'
+    key: 'action',
+    width: 220,
+    fixed: 'right'
   }
 ]
 

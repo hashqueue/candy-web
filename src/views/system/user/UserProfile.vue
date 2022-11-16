@@ -1,5 +1,5 @@
 <template>
-  <a-card style="width: 800px">
+  <a-card :style="{ width: '50%' }">
     <template #actions>
       <a-tooltip>
         <template #title>修改个人信息</template>
