@@ -58,46 +58,12 @@ const privateRoutes = [
         ]
       },
       {
-        path: '/roles',
-        redirect: '/roles/list',
+        path: '/roles/list',
+        component: () => import('@/views/system/role/RoleList.vue'),
         meta: {
-          title: '角色管理',
+          title: '角色列表',
           icon: 'appstore-outlined'
-        },
-        children: [
-          {
-            path: '/roles/list',
-            component: () => import('@/views/system/role/RoleList.vue'),
-            meta: {
-              title: '角色列表',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/roles/create',
-            component: () => import('@/views/system/role/RoleCreate.vue'),
-            meta: {
-              title: '新增角色',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/roles/detail',
-            component: () => import('@/views/system/role/RoleDetail.vue'),
-            meta: {
-              title: '角色详情',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/roles/update',
-            component: () => import('@/views/system/role/RoleUpdate.vue'),
-            meta: {
-              title: '修改角色',
-              icon: 'appstore-outlined'
-            }
-          }
-        ]
+        }
       },
       {
         path: '/organizations/list',

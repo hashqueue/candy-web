@@ -1,6 +1,6 @@
 <template>
   <a-button class="add-btn" type="primary" @click="createRootOrganization">新增根组织架构</a-button>
-  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered>
+  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered :pagination="{ hideOnSinglePage: true }">
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'type'">
         <a-tag :color="record.type === 'company' ? 'geekblue' : 'green'">
@@ -14,7 +14,6 @@
           <a @click="updateOrganization(record)">修改</a>
           <a-divider type="vertical" />
           <a @click="deleteOrganization(record.id)">删除</a>
-          <a-divider type="vertical" />
         </span>
       </template>
     </template>

@@ -1,7 +1,14 @@
 PermissionCreate.vue
 <template>
   <a-button class="add-btn" type="primary" @click="createRootPermission">新增根权限</a-button>
-  <a-table :columns="columns" :data-source="dataList" row-key="id" bordered :scroll="{ x: '100%', y: '100%' }">
+  <a-table
+    :columns="columns"
+    :data-source="dataList"
+    row-key="id"
+    bordered
+    :scroll="{ x: '100%', y: '100%' }"
+    :pagination="{ hideOnSinglePage: true }"
+  >
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'is_menu'">
         <a-tag :color="record.is_menu ? 'geekblue' : 'green'">
