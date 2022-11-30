@@ -20,6 +20,13 @@
       </template>
     </template>
   </a-table>
+  <role-create-update-form
+    :visible="visible"
+    :title="title"
+    :role-id="roleId"
+    @close-modal="closeModal"
+    @get-latest-role-list="getLatestRoleList"
+  />
   <a-modal v-model:visible="delVisible" title="提示" @ok="handleDeleteOk">
     <p>
       <exclamation-circle-two-tone
@@ -33,8 +40,12 @@
 <script setup>
 import { ref } from 'vue'
 import { deleteRoleDetail, getRoleList } from '@/apis/role'
+import RoleCreateUpdateForm from './RoleCreateUpdateForm.vue'
 
 const dataList = ref([])
+const visible = ref(false)
+const title = ref('新增角色')
+const roleId = ref(null)
 const delVisible = ref(false)
 const delRoleId = ref(undefined)
 const paginationData = ref(undefined)
@@ -79,6 +90,9 @@ const getRoleListData = () => {
   })
 }
 getRoleListData()
+const getLatestRoleList = () => {
+  getRoleListData()
+}
 const onPageChange = (pagination, filters, sorter, { currentDataSource }) => {
   const params = {}
   params.page = pagination.current
@@ -96,8 +110,19 @@ const onPageChange = (pagination, filters, sorter, { currentDataSource }) => {
     }
   })
 }
-const createRole = () => {}
-const updateRole = (record) => {}
+const createRole = () => {
+  title.value = '新增角色'
+  visible.value = true
+}
+const closeModal = () => {
+  title.value = '新增角色'
+  visible.value = false
+}
+const updateRole = (record) => {
+  roleId.value = record.id
+  title.value = '修改角色'
+  visible.value = true
+}
 const setPermissions = (record) => {}
 const handleDeleteOk = () => {
   deleteRoleDetail(delRoleId.value).then(() => {

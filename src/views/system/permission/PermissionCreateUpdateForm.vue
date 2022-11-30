@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    v-model:visible="visible"
+    :visible="visible"
     :width="650"
     :title="title"
     ok-text="提交"

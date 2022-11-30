@@ -1,4 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import BasicLayout from '@/layout/BasicLayout.vue'
 
 const routeIgnore = ['/login', '/404', '/403', '/500', '/userProfile', '/dashboard']
@@ -176,9 +178,12 @@ const router = createRouter({
   routes: [...publicRoutes, ...privateRoutes]
 })
 
-// router.afterEach((to, from) => {
-//   console.log(to)
-//   console.log(from)
-// })
+router.beforeEach(async (to, from) => {
+  NProgress.start()
+})
+
+router.afterEach((to) => {
+  NProgress.done()
+})
 
 export default router

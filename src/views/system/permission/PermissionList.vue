@@ -1,4 +1,3 @@
-PermissionCreate.vue
 <template>
   <a-button class="add-btn" type="primary" @click="createRootPermission">新增根权限</a-button>
   <a-table
