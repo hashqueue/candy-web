@@ -30,6 +30,14 @@ export const updateRole = (roleId, data) => {
   })
 }
 
+export const updateRoleWithPatch = (roleId, data) => {
+  return request({
+    url: `/system/roles/${roleId}/`,
+    method: 'PATCH',
+    data
+  })
+}
+
 export const getRoleList = (params) => {
   return request({
     url: `/system/roles/`,

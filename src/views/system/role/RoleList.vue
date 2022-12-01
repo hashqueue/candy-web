@@ -35,20 +35,55 @@
       />此操作将删除该角色下所有的数据，是否继续？
     </p>
   </a-modal>
+  <a-drawer
+    v-model:visible="drawerVisible"
+    :title="drawerTitle"
+    width="40%"
+    :mask-closable="false"
+    @close="closeDrawer"
+  >
+    <a-alert
+      message="提示"
+      description="蓝色为菜单权限，绿色为API权限。"
+      type="info"
+      show-icon
+      style="margin-bottom: 10px"
+    />
+    <a-tree
+      :default-expand-all="true"
+      :checked-keys="checkedKeys"
+      @check="getTreeCheckedKeys"
+      checkable
+      :tree-data="permissionTreeData"
+    >
+      <template #title="{ title, is_menu }">
+        <span v-if="is_menu" style="color: #1890ff">{{ title }}</span>
+        <span v-else style="color: #52c41a">{{ title }}</span>
+      </template>
+    </a-tree>
+    <a-button type="primary" @click="submitPermissions" class="submit-btn">提交</a-button>
+  </a-drawer>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { deleteRoleDetail, getRoleList } from '@/apis/role'
+import { deleteRoleDetail, getRoleList, getRoleDetail, updateRoleWithPatch } from '@/apis/role'
+import { generateTreeData } from '@/utils/common'
+import { getPermissionTreeList } from '@/apis/permission'
 import RoleCreateUpdateForm from './RoleCreateUpdateForm.vue'
 
 const dataList = ref([])
+const permissionTreeData = ref([])
+const checkedKeys = ref([])
 const visible = ref(false)
+const drawerVisible = ref(false)
 const title = ref('新增角色')
+const drawerTitle = ref('')
 const roleId = ref(null)
+const setPermissionsRoleId = ref(null)
 const delVisible = ref(false)
 const delRoleId = ref(undefined)
-const paginationData = ref(undefined)
+const paginationData = ref({})
 const columns = [
   {
     title: '名称',
@@ -123,7 +158,37 @@ const updateRole = (record) => {
   title.value = '修改角色'
   visible.value = true
 }
-const setPermissions = (record) => {}
+const closeDrawer = () => {
+  // console.log('closeDrawer')
+  checkedKeys.value = []
+}
+const getTreeCheckedKeys = (pCheckedKeys) => {
+  // 每次选中某个权限时更新被选中的权限的key
+  checkedKeys.value = pCheckedKeys
+  // console.log(pCheckedKeys)
+}
+const setPermissions = (record) => {
+  getPermissionTreeList().then((res) => {
+    permissionTreeData.value = generateTreeData(res.results)
+    getRoleDetail(record.id).then((res) => {
+      const permissionIds = []
+      for (const permission of res.permissions) {
+        permissionIds.push(permission.id)
+      }
+      checkedKeys.value = permissionIds
+      // console.log(res)
+      drawerTitle.value = `设置角色 ${res.name} 的权限`
+      drawerVisible.value = true
+      setPermissionsRoleId.value = record.id
+    })
+  })
+}
+const submitPermissions = () => {
+  updateRoleWithPatch(setPermissionsRoleId.value, { permissions: checkedKeys.value }).then(() => {
+    checkedKeys.value = []
+    drawerVisible.value = false
+  })
+}
 const handleDeleteOk = () => {
   deleteRoleDetail(delRoleId.value).then(() => {
     delVisible.value = false
@@ -140,5 +205,8 @@ const deleteRole = (roleId) => {
 <style scoped>
 .add-btn {
   margin-bottom: 16px;
+}
+.submit-btn {
+  margin-top: 100px;
 }
 </style>
