@@ -12,13 +12,13 @@
 </template>
 
 <script setup>
-import { getUserInfo } from '@/apis/user'
+import { getUserDetail } from '@/apis/user'
 import Exc403View from '@/views/error-page/Exc403View.vue'
 import Exc404View from '@/views/error-page/Exc404View.vue'
 import Exc500View from '@/views/error-page/Exc500View.vue'
 
 const getUser = () => {
-  getUserInfo(1).then((res) => {
+  getUserDetail(1).then((res) => {
     console.log(res)
   })
 }

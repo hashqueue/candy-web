@@ -44,7 +44,7 @@
   >
     <a-alert
       message="提示"
-      description="蓝色为菜单权限，绿色为API权限。"
+      description="蓝色为菜单权限，绿色为按钮权限。"
       type="info"
       show-icon
       style="margin-bottom: 10px"
@@ -68,7 +68,7 @@
 <script setup>
 import { ref } from 'vue'
 import { deleteRoleDetail, getRoleList, getRoleDetail, updateRoleWithPatch } from '@/apis/role'
-import { generateTreeData } from '@/utils/common'
+import { generatePermissionTreeData } from '@/utils/common'
 import { getPermissionTreeList } from '@/apis/permission'
 import RoleCreateUpdateForm from './RoleCreateUpdateForm.vue'
 
@@ -169,7 +169,7 @@ const getTreeCheckedKeys = (pCheckedKeys) => {
 }
 const setPermissions = (record) => {
   getPermissionTreeList().then((res) => {
-    permissionTreeData.value = generateTreeData(res.results)
+    permissionTreeData.value = generatePermissionTreeData(res.results)
     getRoleDetail(record.id).then((res) => {
       const permissionIds = []
       for (const permission of res.permissions) {

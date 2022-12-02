@@ -1,12 +1,14 @@
 <template>
   <a-button class="add-btn" type="primary" @click="createRootPermission">新增根权限</a-button>
   <a-table
+    v-if="dataList.length"
     :columns="columns"
     :data-source="dataList"
     row-key="id"
     bordered
     :scroll="{ x: '100%', y: '100%' }"
     :pagination="{ hideOnSinglePage: true }"
+    :default-expand-all-rows="true"
   >
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'is_menu'">

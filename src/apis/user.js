@@ -1,6 +1,13 @@
 import request from '@/utils/request'
 
-export const getUserInfo = (userId) => {
+export const createUser = (data) => {
+  return request({
+    url: `/system/users/`,
+    method: 'POST',
+    data
+  })
+}
+export const getUserDetail = (userId) => {
   return request({
     url: `/system/users/${userId}/`,
     method: 'GET'
@@ -22,7 +29,7 @@ export const resetUserPassword = (data) => {
   })
 }
 
-export const updateUserInfoWithUserId = (userId, data) => {
+export const updateUser = (userId, data) => {
   return request({
     url: `/system/users/${userId}/`,
     method: 'PUT',
@@ -34,6 +41,27 @@ export const updateUserProfile = (data) => {
   return request({
     url: `/system/users/update-profile/`,
     method: 'PUT',
+    data
+  })
+}
+
+export const getUserList = (params) => {
+  return request({
+    url: `/system/users/`,
+    method: 'GET',
+    params
+  })
+}
+export const deleteUserDetail = (userId) => {
+  return request({
+    url: `/system/users/${userId}/`,
+    method: 'DELETE'
+  })
+}
+export const updateUserWithPatch = (userId, data) => {
+  return request({
+    url: `/system/users/${userId}/`,
+    method: 'PATCH',
     data
   })
 }

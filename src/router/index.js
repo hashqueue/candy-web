@@ -18,46 +18,12 @@ const privateRoutes = [
     },
     children: [
       {
-        path: '/users',
-        redirect: '/users/list',
+        path: '/users/list',
+        component: () => import('@/views/system/user/UserList.vue'),
         meta: {
-          title: '用户管理',
+          title: '用户列表',
           icon: 'appstore-outlined'
-        },
-        children: [
-          {
-            path: '/users/list',
-            component: () => import('@/views/system/user/UserList.vue'),
-            meta: {
-              title: '用户列表',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/users/create',
-            component: () => import('@/views/system/user/UserCreate.vue'),
-            meta: {
-              title: '新增用户',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/users/detail',
-            component: () => import('@/views/system/user/UserDetail.vue'),
-            meta: {
-              title: '用户详情',
-              icon: 'appstore-outlined'
-            }
-          },
-          {
-            path: '/users/update',
-            component: () => import('@/views/system/user/UserUpdate.vue'),
-            meta: {
-              title: '修改用户',
-              icon: 'appstore-outlined'
-            }
-          }
-        ]
+        }
       },
       {
         path: '/roles/list',
