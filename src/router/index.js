@@ -1,83 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { userStore } from '@/stores/user'
 import BasicLayout from '@/layout/BasicLayout.vue'
 
-const routeIgnore = ['/login', '/404', '/403', '/500', '/userProfile', '/dashboard']
-/**
- * 私有路由表
- */
-const privateRoutes = [
-  {
-    path: '/systems',
-    component: BasicLayout,
-    redirect: '/servicesMonitor',
-    meta: {
-      title: '系统管理',
-      icon: 'appstore-outlined'
-    },
-    children: [
-      {
-        path: '/users/list',
-        component: () => import('@/views/system/user/UserList.vue'),
-        meta: {
-          title: '用户列表',
-          icon: 'appstore-outlined'
-        }
-      },
-      {
-        path: '/roles/list',
-        component: () => import('@/views/system/role/RoleList.vue'),
-        meta: {
-          title: '角色列表',
-          icon: 'appstore-outlined'
-        }
-      },
-      {
-        path: '/organizations/list',
-        component: () => import('@/views/system/organization/OrganizationList.vue'),
-        meta: {
-          title: '部门列表',
-          icon: 'appstore-outlined'
-        }
-      },
-      {
-        path: '/permissions/list',
-        component: () => import('@/views/system/permission/PermissionList.vue'),
-        meta: {
-          title: '权限列表',
-          icon: 'appstore-outlined'
-        }
-      },
-      // {
-      //   path: '/permissions',
-      //   redirect: '/permissions/list',
-      //   meta: {
-      //     title: '权限管理',
-      //     icon: 'appstore-outlined'
-      //   },
-      //   children: [
-      //     {
-      //       path: '/permissions/list',
-      //       component: () => import('@/views/system/permission/PermissionList.vue'),
-      //       meta: {
-      //         title: '权限列表',
-      //         icon: 'appstore-outlined'
-      //       }
-      //     }
-      //   ]
-      // },
-      {
-        path: '/servicesMonitor',
-        component: () => import('@/views/system/service/ServiceMonitor.vue'),
-        meta: {
-          title: '服务监控',
-          icon: 'appstore-outlined'
-        }
-      }
-    ]
-  }
-]
+const routeWhiteList = ['/login', '/404', '/403', '/500', '/userProfile', '/dashboard']
 
 /**
  * 公开路由表
@@ -101,8 +28,8 @@ const publicRoutes = [
         meta: {
           title: '工作台',
           icon: 'dashboard-outlined',
-          // 控制是否显示在部门栏中
-          invisible: false
+          // 控制是否显示在菜单栏中
+          is_visible: true
         }
       },
       {
@@ -112,7 +39,7 @@ const publicRoutes = [
         meta: {
           title: '个人中心',
           // icon: 'dashboard-outlined',
-          invisible: true
+          is_visible: false
         }
       },
       {
@@ -141,11 +68,22 @@ const publicRoutes = [
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: [...publicRoutes, ...privateRoutes]
+  routes: [...publicRoutes]
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start()
+  const userSettingStore = userStore()
+  if (userSettingStore.getToken) {
+    // console.log(to)
+    // console.log(from)
+    userSettingStore.setALlPermissions()
+    next()
+  } else {
+    if (routeWhiteList.includes(to.path)) {
+      next()
+    }
+  }
 })
 
 router.afterEach((to) => {

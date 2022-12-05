@@ -5,7 +5,7 @@
         <img alt="logo" class="logo" src="@/assets/candy.svg" />
         <span class="title">Candy Admin</span>
       </div>
-      <div class="desc">基于Django3 + Vue3 + MySQL8 以进行二次开发的Admin脚手架</div>
+      <div class="desc">基于Django3.2 + Vue3 + MySQL8 以进行二次开发的Admin脚手架</div>
     </div>
     <div class="login-box">
       <a-tabs v-model:activeKey="activeKey" size="large" centered>

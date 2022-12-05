@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { message as antMessage } from 'ant-design-vue'
-import { getItem, removeAllItem } from '@/utils/storage'
+import { removeAllItem } from '@/utils/storage'
+import { userStore } from '@/stores/user'
 import router from '@/router'
 
 const TOKEN_INVALID = 'Token认证失败, 请重新登录.'
@@ -24,20 +25,15 @@ const urlWhiteList = ['/system/user/login/', '/system/user/register/']
  */
 service.interceptors.request.use(
   (requestConfig) => {
-    const userSetting = getItem('userSetting')
     if (urlWhiteList.includes(requestConfig.url)) {
       return requestConfig
     }
-    if (userSetting) {
-      if (userSetting.token) {
-        requestConfig.headers.Authorization = `Bearer ${userSetting.token}`
-        return requestConfig
-      } else {
-        // token不存在，清除localstorage的所有数据，重定向到登录页面
-        redirectToLogin()
-      }
+    const userSettingStore = userStore()
+    if (userSettingStore.getToken) {
+      requestConfig.headers.Authorization = `Bearer ${userSettingStore.getToken}`
+      return requestConfig
     } else {
-      // userSetting不存在，清除localstorage的所有数据，重定向到登录页面
+      // token不存在，清除localstorage的所有数据，重定向到登录页面
       redirectToLogin()
     }
   },
@@ -57,7 +53,7 @@ service.interceptors.response.use(
     const { code, data, message } = response.data
     // TODO 此处的业务状态码需要根据后端进行配置
     if (code === 20000 || code === 200 || response.status === 204) {
-      antMessage.success(message || REQUEST_API_SUCCESS)
+      antMessage.success(message || REQUEST_API_SUCCESS, 1)
       return data
     } else {
       // 业务错误
