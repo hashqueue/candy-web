@@ -1,12 +1,9 @@
 import { defineStore } from 'pinia'
-import { getUserPermissions } from '@/apis/permission'
-import { generateRouteData, generateRouteTreeData } from '@/utils/common'
-import router from '@/router'
 
 export const userStore = defineStore({
   id: 'userSetting',
   state: () => ({
-    token: null,
+    token: '',
     menuPermissions: [],
     buttonPermissions: []
   }),
@@ -19,19 +16,11 @@ export const userStore = defineStore({
     setToken(token) {
       this.token = token
     },
-    setALlPermissions() {
-      getUserPermissions().then((res) => {
-        const routeData = generateRouteData(res.menu_permissions)
-        for (const item of routeData) {
-          if (item.meta.parent !== null) {
-            router.addRoute(item.meta.parent, item)
-          } else {
-            router.addRoute(item)
-          }
-        }
-        this.menuPermissions = routeData
-        this.buttonPermissions = res.api_permissions
-      })
+    setMenuPermissions(pMenuPermissions) {
+      this.menuPermissions = pMenuPermissions
+    },
+    setButtonPermissions(pButtonPermissions) {
+      this.buttonPermissions = pButtonPermissions
     }
   },
   // 开启数据缓存

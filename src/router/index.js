@@ -1,10 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-import { userStore } from '@/stores/user'
 import BasicLayout from '@/layout/BasicLayout.vue'
-
-const routeWhiteList = ['/login', '/404', '/403', '/500', '/userProfile', '/dashboard']
 
 /**
  * 公开路由表
@@ -56,12 +51,13 @@ const publicRoutes = [
         path: '/500',
         name: '500',
         component: () => import('@/views/error-page/Exc500View.vue')
-      },
-      {
-        path: '/:pathMatch(.*)*',
-        // 访问未在路由表中定义的路径则重定向到404页面
-        redirect: '/404'
       }
+      // {
+      //   path: '/:pathMatch(.*)*',
+      //   name: 'notFound',
+      //   //   // 访问未在路由表中定义的路径则重定向到404页面
+      //   redirect: '/404'
+      // }
     ]
   }
 ]
@@ -69,25 +65,6 @@ const publicRoutes = [
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [...publicRoutes]
-})
-
-router.beforeEach(async (to, from, next) => {
-  NProgress.start()
-  const userSettingStore = userStore()
-  if (userSettingStore.getToken) {
-    // console.log(to)
-    // console.log(from)
-    userSettingStore.setALlPermissions()
-    next()
-  } else {
-    if (routeWhiteList.includes(to.path)) {
-      next()
-    }
-  }
-})
-
-router.afterEach((to) => {
-  NProgress.done()
 })
 
 export default router

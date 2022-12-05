@@ -6,6 +6,7 @@ import * as AntdIcons from '@ant-design/icons-vue'
 import store from '@/stores'
 import App from './App.vue'
 import router from './router'
+import './permission'
 
 const app = createApp(App)
 // 注册ant-design的所有图标

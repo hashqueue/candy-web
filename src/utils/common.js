@@ -32,7 +32,7 @@ export const generateOrganizationTreeData = (originTreeData) => {
 }
 
 const convertRouteData = (originData, key) => {
-  const modules = import.meta.glob(['../views/**/**.vue', '../layout/*.vue'])
+  const modules = import.meta.glob(['../views/**/*.vue', '../layout/**/*.vue'])
   const tmpParent = {}
   tmpParent.path = originData[key]['path']
   tmpParent.name = originData[key]['path']
