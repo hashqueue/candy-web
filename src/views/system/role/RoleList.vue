@@ -52,6 +52,7 @@
     <a-tree
       :default-expand-all="true"
       :checked-keys="checkedKeys"
+      :check-strictly="true"
       @check="getTreeCheckedKeys"
       checkable
       :tree-data="permissionTreeData"
@@ -74,7 +75,7 @@ import RoleCreateUpdateForm from './RoleCreateUpdateForm.vue'
 
 const dataList = ref([])
 const permissionTreeData = ref([])
-const checkedKeys = ref([])
+const checkedKeys = ref({ checked: [], halfChecked: [] })
 const visible = ref(false)
 const drawerVisible = ref(false)
 const title = ref('新增角色')
@@ -160,12 +161,12 @@ const updateRole = (record) => {
 }
 const closeDrawer = () => {
   // console.log('closeDrawer')
-  checkedKeys.value = []
+  checkedKeys.value = { checked: [], halfChecked: [] }
 }
 const getTreeCheckedKeys = (pCheckedKeys) => {
   // 每次选中某个权限时更新被选中的权限的key
-  checkedKeys.value = pCheckedKeys
   // console.log(pCheckedKeys)
+  checkedKeys.value = pCheckedKeys
 }
 const setPermissions = (record) => {
   getPermissionTreeList().then((res) => {
@@ -175,7 +176,7 @@ const setPermissions = (record) => {
       for (const permission of res.permissions) {
         permissionIds.push(permission.id)
       }
-      checkedKeys.value = permissionIds
+      checkedKeys.value.checked = permissionIds
       // console.log(res)
       drawerTitle.value = `设置角色 ${res.name} 的权限`
       drawerVisible.value = true
@@ -184,8 +185,8 @@ const setPermissions = (record) => {
   })
 }
 const submitPermissions = () => {
-  updateRoleWithPatch(setPermissionsRoleId.value, { permissions: checkedKeys.value }).then(() => {
-    checkedKeys.value = []
+  updateRoleWithPatch(setPermissionsRoleId.value, { permissions: checkedKeys.value.checked }).then(() => {
+    checkedKeys.value = { checked: [], halfChecked: [] }
     drawerVisible.value = false
   })
 }

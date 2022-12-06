@@ -1,5 +1,7 @@
 <template>
-  <a-button class="add-btn" type="primary" @click="createRootOrganization">新增根组织架构</a-button>
+  <a-button class="add-btn" type="primary" @click="createRootOrganization" v-permission="'新增部门'"
+    >新增根组织架构</a-button
+  >
   <a-table
     v-if="dataList.length"
     :columns="columns"
@@ -17,11 +19,11 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a @click="createSubOrganization(record)">添加子组织架构</a>
+          <a @click="createSubOrganization(record)" v-permission="'新增部门'">添加子组织架构</a>
           <a-divider type="vertical" />
-          <a @click="updateOrganization(record)">修改</a>
+          <a @click="updateOrganization(record)" v-permission="'修改部门'">修改</a>
           <a-divider type="vertical" />
-          <a @click="deleteOrganization(record.id)">删除</a>
+          <a @click="deleteOrganization(record.id)" v-permission="'删除部门'">删除</a>
         </span>
       </template>
     </template>
