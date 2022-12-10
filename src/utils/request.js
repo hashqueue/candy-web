@@ -29,7 +29,7 @@ service.interceptors.request.use(
       return requestConfig
     }
     const userSettingStore = userStore()
-    if (userSettingStore.getToken) {
+    if (userSettingStore.getToken !== '') {
       requestConfig.headers.Authorization = `Bearer ${userSettingStore.getToken}`
       return requestConfig
     } else {

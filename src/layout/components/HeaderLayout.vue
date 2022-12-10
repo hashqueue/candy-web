@@ -37,8 +37,10 @@ import MenuLayout from './menu/MenuLayout.vue'
 import BreadcrumbLayout from './BreadcrumbLayout.vue'
 import ScreenfullView from '@/components/ScreenfullView.vue'
 import { getUserProfile } from '@/apis/user'
+import { userStore } from '@/stores/user'
 
 const router = useRouter()
+const userSettingStore = userStore()
 const userInfo = ref({
   username: '',
   avatar: ''
@@ -48,6 +50,8 @@ getUserProfile().then((res) => {
   userInfo.value = res
 })
 const logOut = () => {
+  // 重置store的数据
+  userSettingStore.$reset()
   removeAllItem()
   router.push('/login')
 }
