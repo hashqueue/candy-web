@@ -5,12 +5,14 @@ export const userStore = defineStore({
   state: () => ({
     token: '',
     menuPermissions: [],
-    buttonPermissions: []
+    buttonPermissions: [],
+    userRoutes: []
   }),
   getters: {
     getToken: (state) => state.token,
     getMenuPermissions: (state) => state.menuPermissions,
-    getButtonPermissions: (state) => state.buttonPermissions
+    getButtonPermissions: (state) => state.buttonPermissions,
+    getUserRoutes: (state) => state.userRoutes
   },
   actions: {
     setToken(token) {
@@ -21,6 +23,9 @@ export const userStore = defineStore({
     },
     setButtonPermissions(pButtonPermissions) {
       this.buttonPermissions = pButtonPermissions
+    },
+    setUserRoutes(pRoutes) {
+      this.userRoutes = pRoutes
     }
   },
   // 开启数据缓存

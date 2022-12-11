@@ -1,136 +1,140 @@
 <template>
   <div class="base-container">
-    <div class="top">
-      <div class="header">
-        <img alt="logo" class="logo" src="@/assets/candy.svg" />
-        <span class="title">Candy Admin</span>
+    <a-spin tip="正在登录中，请稍后..." :spinning="spinning">
+      <div class="top">
+        <div class="header">
+          <img alt="logo" class="logo" src="@/assets/candy.svg" />
+          <span class="title">Candy Admin</span>
+        </div>
+        <div class="desc">基于Django3.2 + Vue3 + MySQL8 可进行二次开发的Admin脚手架</div>
       </div>
-      <div class="desc">基于Django3.2 + Vue3 + MySQL8 可进行二次开发的Admin脚手架</div>
-    </div>
-    <div class="login-box">
-      <a-tabs v-model:activeKey="activeKey" size="large" centered>
-        <a-tab-pane key="login" tab="登录">
-          <a-form
-            ref="loginFormRef"
-            :model="loginForm"
-            name="login"
-            :rules="loginRules"
-            :label-col="{ span: 8 }"
-            :wrapper-col="{ span: 10 }"
-            autocomplete="off"
-            @finish="onLoginFinish"
-            @finishFailed="onLoginFinishFailed"
-          >
-            <a-form-item label="用户名" name="username">
-              <a-input
-                v-model:value="loginForm.username"
-                size="large"
-                placeholder="请输入用户名或邮箱"
-                :allow-clear="true"
-              >
-                <template #prefix>
-                  <UserOutlined />
-                </template>
-              </a-input>
-            </a-form-item>
+      <div class="login-box">
+        <a-tabs v-model:activeKey="activeKey" size="large" centered>
+          <a-tab-pane key="login" tab="登录">
+            <a-form
+              ref="loginFormRef"
+              :model="loginForm"
+              name="login"
+              :rules="loginRules"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 10 }"
+              autocomplete="off"
+              @finish="onLoginFinish"
+              @finishFailed="onLoginFinishFailed"
+            >
+              <a-form-item label="用户名" name="username">
+                <a-input
+                  v-model:value="loginForm.username"
+                  size="large"
+                  placeholder="请输入用户名或邮箱"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
 
-            <a-form-item label="密码" name="password">
-              <a-input-password
-                v-model:value="loginForm.password"
-                size="large"
-                placeholder="请输入密码"
-                :allow-clear="true"
-              >
-                <template #prefix>
-                  <LockOutlined />
-                </template>
-              </a-input-password>
-            </a-form-item>
+              <a-form-item label="密码" name="password">
+                <a-input-password
+                  v-model:value="loginForm.password"
+                  size="large"
+                  placeholder="请输入密码"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
 
-            <a-form-item :wrapper-col="{ offset: 8, span: 10 }">
-              <a-button type="primary" size="large" class="login-button" html-type="submit">登录</a-button>
-            </a-form-item>
-          </a-form>
-        </a-tab-pane>
-        <a-tab-pane key="register" tab="注册">
-          <a-form
-            ref="registerFormRef"
-            :model="registerForm"
-            name="register"
-            :rules="registerRules"
-            :label-col="{ span: 8 }"
-            :wrapper-col="{ span: 10 }"
-            autocomplete="off"
-            @finish="onRegisterFinish"
-            @finishFailed="onRegisterFinishFailed"
-          >
-            <a-form-item label="用户名" name="username">
-              <a-input
-                v-model:value="registerForm.username"
-                size="large"
-                placeholder="请输入用户名"
-                :allow-clear="true"
-              >
-                <template #prefix>
-                  <UserOutlined />
-                </template>
-              </a-input>
-            </a-form-item>
+              <a-form-item :wrapper-col="{ offset: 8, span: 10 }">
+                <a-button type="primary" size="large" class="login-button" html-type="submit">登录</a-button>
+              </a-form-item>
+            </a-form>
+          </a-tab-pane>
+          <a-tab-pane key="register" tab="注册">
+            <a-form
+              ref="registerFormRef"
+              :model="registerForm"
+              name="register"
+              :rules="registerRules"
+              :label-col="{ span: 8 }"
+              :wrapper-col="{ span: 10 }"
+              autocomplete="off"
+              @finish="onRegisterFinish"
+              @finishFailed="onRegisterFinishFailed"
+            >
+              <a-form-item label="用户名" name="username">
+                <a-input
+                  v-model:value="registerForm.username"
+                  size="large"
+                  placeholder="请输入用户名"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <UserOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
 
-            <a-form-item label="邮箱" name="email">
-              <a-input v-model:value="registerForm.email" size="large" placeholder="请输入邮箱" :allow-clear="true">
-                <template #prefix>
-                  <MailOutlined />
-                </template>
-              </a-input>
-            </a-form-item>
+              <a-form-item label="邮箱" name="email">
+                <a-input v-model:value="registerForm.email" size="large" placeholder="请输入邮箱" :allow-clear="true">
+                  <template #prefix>
+                    <MailOutlined />
+                  </template>
+                </a-input>
+              </a-form-item>
 
-            <a-form-item label="密码" name="password">
-              <a-input-password
-                v-model:value="registerForm.password"
-                size="large"
-                placeholder="请输入密码"
-                :allow-clear="true"
-              >
-                <template #prefix>
-                  <LockOutlined />
-                </template>
-              </a-input-password>
-            </a-form-item>
+              <a-form-item label="密码" name="password">
+                <a-input-password
+                  v-model:value="registerForm.password"
+                  size="large"
+                  placeholder="请输入密码"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
 
-            <a-form-item label="确认密码" name="password_confirm">
-              <a-input-password
-                v-model:value="registerForm.password_confirm"
-                size="large"
-                placeholder="请再次输入密码"
-                :allow-clear="true"
-              >
-                <template #prefix>
-                  <LockOutlined />
-                </template>
-              </a-input-password>
-            </a-form-item>
+              <a-form-item label="确认密码" name="password_confirm">
+                <a-input-password
+                  v-model:value="registerForm.password_confirm"
+                  size="large"
+                  placeholder="请再次输入密码"
+                  :allow-clear="true"
+                >
+                  <template #prefix>
+                    <LockOutlined />
+                  </template>
+                </a-input-password>
+              </a-form-item>
 
-            <a-form-item :wrapper-col="{ offset: 8, span: 10 }">
-              <a-button type="primary" size="large" class="login-button" html-type="submit">注册</a-button>
-            </a-form-item>
-          </a-form>
-        </a-tab-pane>
-      </a-tabs>
-    </div>
+              <a-form-item :wrapper-col="{ offset: 8, span: 10 }">
+                <a-button type="primary" size="large" class="login-button" html-type="submit">注册</a-button>
+              </a-form-item>
+            </a-form>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+    </a-spin>
   </div>
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { login, register } from '@/apis/login'
 import { userStore } from '@/stores/user'
 
+let pushToDashboardInterval
 const userSettingStore = userStore()
 const router = useRouter()
+const spinning = ref(false)
 const activeKey = ref('login')
 const loginFormRef = ref()
 const registerFormRef = ref()
@@ -171,10 +175,14 @@ const registerRules = {
 }
 
 const onLoginFinish = (values) => {
+  spinning.value = true
   login(values).then((res) => {
     userSettingStore.setToken(res.access)
-    loginFormRef.value.resetFields()
-    router.push('/dashboard')
+    pushToDashboardInterval = setInterval(() => {
+      loginFormRef.value.resetFields()
+      spinning.value = false
+      router.push('/dashboard')
+    }, 1000)
   })
 }
 
@@ -194,6 +202,10 @@ const onRegisterFinish = (values) => {
 const onRegisterFinishFailed = (errorInfo) => {
   message.error('输入有误.')
 }
+onUnmounted(() => {
+  // 取消定时器
+  clearInterval(pushToDashboardInterval)
+})
 </script>
 
 <style scoped lang="less">

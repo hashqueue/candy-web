@@ -1,5 +1,5 @@
 <template>
-  <a-button class="add-btn" type="primary" @click="createRole">新增角色</a-button>
+  <a-button class="add-btn" type="primary" @click="createRole" v-permission="'新增角色'">新增角色</a-button>
   <a-table
     :columns="columns"
     :data-source="dataList"
@@ -11,11 +11,11 @@
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="updateRole(record)">修改</a>
+          <a @click="updateRole(record)" v-permission="'修改角色'">修改</a>
           <a-divider type="vertical" />
-          <a @click="setPermissions(record)">设置权限</a>
+          <a @click="setPermissions(record)" v-permission="'修改角色部分信息'">设置权限</a>
           <a-divider type="vertical" />
-          <a @click="deleteRole(record.id)">删除</a>
+          <a @click="deleteRole(record.id)" v-permission="'删除角色'">删除</a>
         </span>
       </template>
     </template>
@@ -62,7 +62,9 @@
         <span v-else style="color: #52c41a">{{ title }}</span>
       </template>
     </a-tree>
-    <a-button type="primary" @click="submitPermissions" class="submit-btn">提交</a-button>
+    <a-button type="primary" @click="submitPermissions" class="submit-btn" v-permission="'修改角色部分信息'"
+      >提交</a-button
+    >
   </a-drawer>
 </template>
 

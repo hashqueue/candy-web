@@ -50,6 +50,12 @@ getUserProfile().then((res) => {
   userInfo.value = res
 })
 const logOut = () => {
+  // 删除当前登录用户拥有的动态路由权限
+  for (const menuPermission of userSettingStore.getMenuPermissions) {
+    if (router.hasRoute(menuPermission.path)) {
+      router.removeRoute(menuPermission.path)
+    }
+  }
   // 重置store的数据
   userSettingStore.$reset()
   removeAllItem()

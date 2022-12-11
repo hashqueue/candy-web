@@ -134,7 +134,7 @@ watch(
           email: res.email,
           name: res.name,
           position: res.position,
-          department: res.department.id,
+          department: res.department !== null ? res.department.id : res.department,
           roles: tmpRoleList
         }
       })

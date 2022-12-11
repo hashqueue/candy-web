@@ -24,12 +24,14 @@ import { useRouter, useRoute } from 'vue-router'
 import { filterRouters, generateMenus } from '@/utils/route'
 import SubMenuItem from './SubMenuItem.vue'
 import { generateRouteTreeData } from '@/utils/common'
+import { userStore } from '@/stores/user'
 
+const userSettingStore = userStore()
 const router = useRouter()
 const route = useRoute()
 const selectedKeys = computed(() => [route.path])
 const routes = computed(() => {
-  const res = generateRouteTreeData(router.getRoutes())
+  const res = generateRouteTreeData(userSettingStore.getUserRoutes)
   const filterRoutes = filterRouters(res)
   return generateMenus(filterRoutes)
 })

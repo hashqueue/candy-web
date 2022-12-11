@@ -1,5 +1,5 @@
 <template>
-  <a-button class="add-btn" type="primary" @click="createUser">新增用户</a-button>
+  <a-button class="add-btn" type="primary" @click="createUser" v-permission="'新增用户'">新增用户</a-button>
   <a-table
     :columns="columns"
     :data-source="dataList"
@@ -11,9 +11,9 @@
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="updateUser(record)">修改</a>
+          <a @click="updateUser(record)" v-permission="'修改用户'">修改</a>
           <a-divider type="vertical" />
-          <a @click="deleteUser(record.id)">删除</a>
+          <a @click="deleteUser(record.id)" v-permission="'删除用户'">删除</a>
         </span>
       </template>
       <template v-if="column.key === 'roles'">

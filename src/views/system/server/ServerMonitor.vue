@@ -1,27 +1,21 @@
 <template>
-  <a-card title="CPU实时数据" class="card">
-    <v-chart class="chart" :option="cpuOption" />
-  </a-card>
-  <a-card title="内存实时数据" class="card">
-    <v-chart class="chart" :option="memoryOption" />
-  </a-card>
-  <a-card title="磁盘实时数据" class="card">
-    <v-chart class="chart" :option="diskOption" />
-  </a-card>
+  <v-chart class="chart" :option="cpuOption" />
+  <v-chart class="chart" :option="memoryOption" />
+  <v-chart class="chart" :option="diskOption" />
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, provide, onMounted, onUnmounted } from 'vue'
 import { use } from 'echarts/core'
 import { message } from 'ant-design-vue'
 import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
 import { UniversalTransition } from 'echarts/features'
 import { LineChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
-import VChart from 'vue-echarts'
+import VChart, { THEME_KEY } from 'vue-echarts'
 
 use([CanvasRenderer, LineChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent, UniversalTransition])
-
+provide(THEME_KEY, 'dark')
 let wsPublishInterval
 const webSocket = new WebSocket(`${import.meta.env.VITE_WS_URL}/server/get-performance-data/`)
 const date = ref([])
@@ -32,6 +26,9 @@ const freeMemory = ref([])
 const usedMemory = ref([])
 const memoryPercent = ref([])
 const memoryOption = ref({
+  title: {
+    text: 'Memory Real-Time Data'
+  },
   tooltip: {
     trigger: 'axis'
   },
@@ -50,31 +47,26 @@ const memoryOption = ref({
     {
       name: 'Total Memory(GB)',
       type: 'line',
-      showSymbol: false,
       data: totalMemory.value
     },
     {
       name: 'Available Memory(GB)',
       type: 'line',
-      showSymbol: false,
       data: availableMemory.value
     },
     {
       name: 'Free Memory(GB)',
       type: 'line',
-      showSymbol: false,
       data: freeMemory.value
     },
     {
       name: 'Used Memory(GB)',
       type: 'line',
-      showSymbol: false,
       data: usedMemory.value
     },
     {
       name: 'Memory Percent(%)',
       type: 'line',
-      showSymbol: false,
       data: memoryPercent.value
     }
   ]
@@ -83,12 +75,15 @@ const memoryOption = ref({
 const cpuCount = ref([])
 const cpuPercent = ref([])
 const cpuOption = ref({
+  title: {
+    text: 'CPU Real-Time Data'
+  },
   tooltip: {
     trigger: 'axis'
   },
   legend: {
     left: 'center',
-    data: ['Cpu Count(核)', 'Cpu Percent(%)']
+    data: ['CPU Count(核)', 'CPU Percent(%)']
   },
   xAxis: {
     type: 'category',
@@ -99,15 +94,13 @@ const cpuOption = ref({
   },
   series: [
     {
-      name: 'Cpu Count(核)',
+      name: 'CPU Count(核)',
       type: 'line',
-      showSymbol: false,
       data: cpuCount.value
     },
     {
-      name: 'Cpu Percent(%)',
+      name: 'CPU Percent(%)',
       type: 'line',
-      showSymbol: false,
       data: cpuPercent.value
     }
   ]
@@ -118,6 +111,9 @@ const usedDisk = ref([])
 const freeDisk = ref([])
 const diskPercent = ref([])
 const diskOption = ref({
+  title: {
+    text: 'Disk Real-Time Data'
+  },
   tooltip: {
     trigger: 'axis'
   },
@@ -136,25 +132,21 @@ const diskOption = ref({
     {
       name: 'Total Disk(GB)',
       type: 'line',
-      showSymbol: false,
       data: totalDisk.value
     },
     {
       name: 'Used Disk(GB)',
       type: 'line',
-      showSymbol: false,
       data: usedDisk.value
     },
     {
       name: 'Free Disk(GB)',
       type: 'line',
-      showSymbol: false,
       data: freeDisk.value
     },
     {
       name: 'Disk Percent(%)',
       type: 'line',
-      showSymbol: false,
       data: diskPercent.value
     }
   ]
@@ -212,13 +204,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.card {
-  height: 600px;
-  width: 100%;
-  margin-bottom: 10px;
-}
 .chart {
   width: 100%;
   height: 500px;
+  margin-bottom: 20px;
 }
 </style>

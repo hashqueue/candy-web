@@ -1,5 +1,5 @@
 <template>
-  <a-button class="add-btn" type="primary" @click="createRootPermission">新增根权限</a-button>
+  <a-button class="add-btn" type="primary" @click="createRootPermission" v-permission="'新增权限'">新增根权限</a-button>
   <a-table
     v-if="dataList.length"
     :columns="columns"
@@ -36,11 +36,11 @@
       </template>
       <template v-else-if="column.key === 'action'">
         <span>
-          <a @click="createSubPermission(record)">添加子权限</a>
+          <a @click="createSubPermission(record)" v-permission="'新增权限'">添加子权限</a>
           <a-divider type="vertical" />
-          <a @click="updatePermission(record)">修改</a>
+          <a @click="updatePermission(record)" v-permission="'修改权限'">修改</a>
           <a-divider type="vertical" />
-          <a @click="deletePermission(record.id)">删除</a>
+          <a @click="deletePermission(record.id)" v-permission="'删除权限'">删除</a>
         </span>
       </template>
     </template>
