@@ -1,36 +1,43 @@
-export const generatePermissionTreeData = (originTreeData) => {
+/**
+ * 生成权限树列表
+ * @param originTreeData 原始树列表数据
+ * @param originTreeDataType 需要转换的类型
+ * @returns {*[]}
+ */
+export const generateObjectTreeData = (originTreeData, originTreeDataType) => {
   const treeData = []
   for (const item of originTreeData) {
-    if (item.title && item.id) {
-      const tmpData = {}
-      tmpData.key = item.id
-      tmpData.title = item.title
-      tmpData.is_menu = item.is_menu
-      if (item.children) {
-        tmpData.children = generatePermissionTreeData(item.children)
+    const tmpData = {}
+    if (originTreeDataType === 'organization') {
+      if (item.name && item.id) {
+        tmpData.value = item.id
+        tmpData.title = item.name
+        if (item.children) {
+          tmpData.children = generateObjectTreeData(item.children, 'organization')
+        }
+        treeData.push(tmpData)
       }
-      treeData.push(tmpData)
+    } else if (originTreeDataType === 'permission') {
+      if (item.title && item.id) {
+        tmpData.key = item.id
+        tmpData.title = item.title
+        tmpData.is_menu = item.is_menu
+        if (item.children) {
+          tmpData.children = generateObjectTreeData(item.children, 'permission')
+        }
+        treeData.push(tmpData)
+      }
     }
   }
   return treeData
 }
 
-export const generateOrganizationTreeData = (originTreeData) => {
-  const treeData = []
-  for (const item of originTreeData) {
-    if (item.name && item.id) {
-      const tmpData = {}
-      tmpData.value = item.id
-      tmpData.title = item.name
-      if (item.children) {
-        tmpData.children = generateOrganizationTreeData(item.children)
-      }
-      treeData.push(tmpData)
-    }
-  }
-  return treeData
-}
-
+/**
+ * 将路由原始数据转化为vue-router可用的数据，添加路由懒加载
+ * @param originData
+ * @param key
+ * @returns {{}}
+ */
 const convertRouteData = (originData, key) => {
   const modules = import.meta.glob(['../views/**/*.vue', '../layout/**/*.vue'])
   const tmpParent = {}
@@ -47,6 +54,11 @@ const convertRouteData = (originData, key) => {
   tmpParent['meta']['is_visible'] = originData[key]['is_visible']
   return tmpParent
 }
+/**
+ * 生成树结构的路由表
+ * @param originDataArr
+ * @returns {*[]}
+ */
 export const generateRouteTreeData = (originDataArr) => {
   const treeObj = {}
   const treeMenuData = []
@@ -72,6 +84,11 @@ export const generateRouteTreeData = (originDataArr) => {
   return [...otherMenu, ...treeMenuData]
 }
 
+/**
+ * 生成路由表数据(非树结构),组件设置路由懒加载
+ * @param originDataArr
+ * @returns {*[]}
+ */
 export const generateRouteData = (originDataArr) => {
   const treeObj = {}
   const treeMenuData = []

@@ -101,16 +101,16 @@ const columns = [
     key: 'icon'
   },
   {
+    title: '是否显示',
+    dataIndex: 'is_visible',
+    width: 100,
+    key: 'is_visible'
+  },
+  {
     title: '路由path',
     dataIndex: 'path',
     width: 250,
     key: 'path'
-  },
-  {
-    title: '路由重定向path',
-    dataIndex: 'redirect',
-    width: 200,
-    key: 'redirect'
   },
   {
     title: '组件路径',
@@ -119,10 +119,10 @@ const columns = [
     key: 'component'
   },
   {
-    title: '是否显示',
-    dataIndex: 'is_visible',
-    width: 100,
-    key: 'is_visible'
+    title: '路由重定向path',
+    dataIndex: 'redirect',
+    width: 200,
+    key: 'redirect'
   },
   {
     title: '请求方法',

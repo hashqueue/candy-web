@@ -63,7 +63,7 @@
 import { ref, watch } from 'vue'
 import { createUser, updateUser, getUserDetail } from '@/apis/user'
 import { getRoleList } from '@/apis/role'
-import { generateOrganizationTreeData } from '@/utils/common'
+import { generateObjectTreeData } from '@/utils/common'
 import { getOrganizationTreeList } from '@/apis/organization'
 
 const props = defineProps({
@@ -91,7 +91,7 @@ getRoleList().then((res) => {
   roleOptions.value = tmpRoleArr
 })
 getOrganizationTreeList().then((res) => {
-  departmentTreeData.value = generateOrganizationTreeData(res.results)
+  departmentTreeData.value = generateObjectTreeData(res.results, 'organization')
 })
 const createUpdateForm = ref({
   username: '',

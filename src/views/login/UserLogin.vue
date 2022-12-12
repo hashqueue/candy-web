@@ -7,6 +7,11 @@
           <span class="title">Candy Admin</span>
         </div>
         <div class="desc">基于Django3.2 + Vue3 + MySQL8 可进行二次开发的Admin脚手架</div>
+        <div class="desc-system">
+          <div>用户名：test，密码：test3306，拥有普通用户权限</div>
+          <div>用户名：admin，密码：admin3306，拥有超级管理员权限</div>
+          <div>演示环境默认禁用所有数据删除权限</div>
+        </div>
       </div>
       <div class="login-box">
         <a-tabs v-model:activeKey="activeKey" size="large" centered>

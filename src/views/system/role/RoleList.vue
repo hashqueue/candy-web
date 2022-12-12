@@ -71,7 +71,7 @@
 <script setup>
 import { ref } from 'vue'
 import { deleteRoleDetail, getRoleList, getRoleDetail, updateRoleWithPatch } from '@/apis/role'
-import { generatePermissionTreeData } from '@/utils/common'
+import { generateObjectTreeData } from '@/utils/common'
 import { getPermissionTreeList } from '@/apis/permission'
 import RoleCreateUpdateForm from './RoleCreateUpdateForm.vue'
 
@@ -172,7 +172,7 @@ const getTreeCheckedKeys = (pCheckedKeys) => {
 }
 const setPermissions = (record) => {
   getPermissionTreeList().then((res) => {
-    permissionTreeData.value = generatePermissionTreeData(res.results)
+    permissionTreeData.value = generateObjectTreeData(res.results, 'permission')
     getRoleDetail(record.id).then((res) => {
       const permissionIds = []
       for (const permission of res.permissions) {
