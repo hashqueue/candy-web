@@ -3,7 +3,9 @@
     class="base-container"
     :style="{
       background:
-        mode === 'development' ? '#f0f2f5 url(\'src/assets/background.svg\') no-repeat' : `url(${backgroundSvg})`
+        mode === 'development'
+          ? '#f0f2f5 url(\'src/assets/background.svg\') no-repeat'
+          : `#f0f2f5 url(${backgroundSvg}) no-repeat`
     }"
   >
     <a-spin tip="正在登录中，请稍后..." :spinning="spinning">
