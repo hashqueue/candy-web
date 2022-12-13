@@ -17,7 +17,7 @@ import VChart, { THEME_KEY } from 'vue-echarts'
 use([CanvasRenderer, LineChart, TitleComponent, TooltipComponent, LegendComponent, GridComponent, UniversalTransition])
 provide(THEME_KEY, 'dark')
 let wsPublishInterval
-const webSocket = new WebSocket(`${import.meta.env.VITE_WS_URL}/server/get-performance-data/`)
+const webSocket = new WebSocket(`ws://${location.host}${import.meta.env.VITE_WS_BASE_URL}/server/get-performance-data/`)
 const date = ref([])
 // memory
 const totalMemory = ref([])

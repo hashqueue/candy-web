@@ -1,5 +1,11 @@
 <template>
-  <div class="base-container">
+  <div
+    class="base-container"
+    :style="{
+      background:
+        mode === 'development' ? '#f0f2f5 url(\'src/assets/background.svg\') no-repeat' : `url(${backgroundSvg})`
+    }"
+  >
     <a-spin tip="正在登录中，请稍后..." :spinning="spinning">
       <div class="top">
         <div class="header">
@@ -135,8 +141,10 @@ import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 import { login, register } from '@/apis/login'
 import { userStore } from '@/stores/user'
+import backgroundSvg from '@/assets/background.svg'
 
 let pushToDashboardInterval
+const mode = import.meta.env.MODE
 const userSettingStore = userStore()
 const router = useRouter()
 const spinning = ref(false)
@@ -181,14 +189,18 @@ const registerRules = {
 
 const onLoginFinish = (values) => {
   spinning.value = true
-  login(values).then((res) => {
-    userSettingStore.setToken(res.access)
-    pushToDashboardInterval = setInterval(() => {
-      loginFormRef.value.resetFields()
+  login(values)
+    .then((res) => {
+      userSettingStore.setToken(res.access)
+      pushToDashboardInterval = setInterval(() => {
+        loginFormRef.value.resetFields()
+        spinning.value = false
+        router.push('/dashboard')
+      }, 1000)
+    })
+    .catch(() => {
       spinning.value = false
-      router.push('/dashboard')
-    }, 1000)
-  })
+    })
 }
 
 const onLoginFinishFailed = (errorInfo) => {
@@ -220,7 +232,7 @@ onUnmounted(() => {
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  background: #f0f2f5 url('src/assets/background.svg') no-repeat;
+  //background: #f0f2f5 url('src/assets/background.svg') no-repeat;
   background-position-x: center;
   background-position-y: 110px;
   background-size: 100%;
