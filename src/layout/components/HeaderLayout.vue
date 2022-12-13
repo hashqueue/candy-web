@@ -12,6 +12,9 @@
     <a-col :span="4">
       <a-row type="flex" justify="end">
         <a-col>
+          <component class="github-logo" :is="'github-outlined'" @click="goToGithub" />
+        </a-col>
+        <a-col>
           <screenfull-view />
         </a-col>
         <a-col>
@@ -26,7 +29,6 @@
       </a-row>
     </a-col>
   </a-row>
-  <BreadcrumbLayout />
 </template>
 
 <script setup>
@@ -34,7 +36,6 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { removeAllItem } from '@/utils/storage'
 import MenuLayout from './menu/MenuLayout.vue'
-import BreadcrumbLayout from './BreadcrumbLayout.vue'
 import ScreenfullView from '@/components/ScreenfullView.vue'
 import { getUserProfile } from '@/apis/user'
 import { userStore } from '@/stores/user'
@@ -64,9 +65,12 @@ const logOut = () => {
 const showUserInfo = () => {
   router.push('/userProfile')
 }
+const goToGithub = () => {
+  window.open('https://github.com/hashqueue/candy')
+}
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .popover-option {
   margin-bottom: 5px;
 }
@@ -86,5 +90,16 @@ const showUserInfo = () => {
   margin-right: 16px;
   font-weight: 600;
   font-size: 16px;
+}
+.github-logo {
+  color: #fff;
+  font-size: 24px;
+  margin-top: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+  :hover {
+    color: #1890ff;
+  }
 }
 </style>

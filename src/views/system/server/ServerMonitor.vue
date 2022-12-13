@@ -161,7 +161,7 @@ const removeArrFirstElementBeginPushElement = (arr, value) => {
 
 onMounted(() => {
   webSocket.onopen = (event) => {
-    message.success('与server建立ws连接成功.')
+    message.success('与server建立ws连接成功，拉取数据中...')
     wsPublishInterval = setInterval(() => {
       webSocket.send(JSON.stringify({ action: 'get-performance-data' }))
     }, 2000)

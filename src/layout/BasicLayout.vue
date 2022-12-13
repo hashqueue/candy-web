@@ -4,15 +4,16 @@
       <HeaderLayout />
     </a-layout-header>
     <a-layout-content class="main-container">
+      <BreadcrumbLayout class="my-breadcrumb" />
       <ContentLayout />
     </a-layout-content>
-    <a-layout-footer class="footer-container"> Candy Web ©2022 Created by hashqueue</a-layout-footer>
   </a-layout>
 </template>
 
 <script setup>
 import HeaderLayout from './components/HeaderLayout.vue'
 import ContentLayout from './components/ContentLayout.vue'
+import BreadcrumbLayout from './components/BreadcrumbLayout.vue'
 </script>
 
 <style scoped>
@@ -20,7 +21,7 @@ import ContentLayout from './components/ContentLayout.vue'
   height: 100vh;
 }
 .ant-layout-header {
-  padding: 0 20px;
+  padding: 0 16px;
 }
 .header-container {
   position: fixed;
@@ -28,11 +29,11 @@ import ContentLayout from './components/ContentLayout.vue'
   width: 100%;
 }
 .main-container {
-  padding: 0 20px;
-  margin-top: 120px;
+  padding: 0 16px;
+  margin-top: 64px;
   overflow-y: auto;
 }
-.footer-container {
-  text-align: center;
+.my-breadcrumb {
+  margin: 16px 0;
 }
 </style>
