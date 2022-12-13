@@ -4,25 +4,25 @@ An admin background template developed with Vue3、Ant Design Vue and Vite.
 
 ## Project Setup
 
-```bash
+```shell
 npm config set registry https://registry.npmmirror.com/
 npm install
 ```
 
 ### Compile and Hot-Reload for Development
 
-```bash
+```shell
 npm run dev
 ```
 
 ### Compile and Minify for Production
 
-```bash
+```shell
 npm run build
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
 
-```bash
+```shell
 npm run lint
 ```
