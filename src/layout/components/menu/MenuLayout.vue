@@ -19,18 +19,22 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { filterRouters, generateMenus } from '@/utils/route'
 import SubMenuItem from './SubMenuItem.vue'
 import { generateRouteTreeData } from '@/utils/common'
+import { userStore } from '@/stores/user'
 
 const router = useRouter()
 const route = useRoute()
-const userRoutes = ref(router.getRoutes())
+const userSettingStore = userStore()
 const selectedKeys = computed(() => [route.path])
 const routes = computed(() => {
-  const res = generateRouteTreeData(userRoutes.value)
+  if (!userSettingStore.getUserRoutes) {
+    return []
+  }
+  const res = generateRouteTreeData(userSettingStore.getUserRoutes)
   const filterRoutes = filterRouters(res)
   return generateMenus(filterRoutes)
 })

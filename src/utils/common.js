@@ -75,7 +75,7 @@ export const generateRouteTreeData = (originDataArr) => {
       const parent_data = treeObj[pid]
       parent_data.children.push(treeObj[key])
     } else {
-      // treeObj[key].children = []
+      treeObj[key].children = []
       treeMenuData.push(treeObj[key])
     }
   }

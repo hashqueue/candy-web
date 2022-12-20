@@ -5,7 +5,8 @@ export const userStore = defineStore('userSetting', {
   state: () => ({
     token: null,
     menuPermissions: null,
-    buttonPermissions: null
+    buttonPermissions: null,
+    userRoutes: null
   }),
   getters: {
     getToken(state) {
@@ -31,6 +32,14 @@ export const userStore = defineStore('userSetting', {
         return newButtonPermissions
       }
       return state.buttonPermissions
+    },
+    getUserRoutes(state) {
+      if (!state.userRoutes) {
+        const newUserRoutes = getItem('userRoutes')
+        this.userRoutes = newUserRoutes
+        return newUserRoutes
+      }
+      return state.userRoutes
     }
   },
   actions: {
@@ -45,6 +54,10 @@ export const userStore = defineStore('userSetting', {
     setButtonPermissions(pButtonPermissions) {
       this.buttonPermissions = pButtonPermissions
       setItem('buttonPermissions', pButtonPermissions)
+    },
+    setUserRoutes(pUserRoutes) {
+      this.userRoutes = pUserRoutes
+      setItem('userRoutes', pUserRoutes)
     }
   }
 })
