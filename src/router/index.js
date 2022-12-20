@@ -99,8 +99,8 @@ router.beforeEach(async (to, from, next) => {
         userSettingStore.setButtonPermissions(res.api_permissions)
         addDynamicRoutes(res.menu_permissions)
         userSettingStore.setUserRoutes(router.getRoutes())
+        next()
       })
-      next()
     } else {
       addDynamicRoutes(userSettingStore.getMenuPermissions)
       if (to.matched.length === 0 && from.matched.length === 0) {
