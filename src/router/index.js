@@ -87,15 +87,6 @@ const addDynamicRoutes = (menuPermissions) => {
   }
 }
 
-const getPermissionsToAddDynamicRoutes = (userSettingStore) => {
-  getUserPermissions().then((res) => {
-    userSettingStore.setMenuPermissions(res.menu_permissions)
-    userSettingStore.setButtonPermissions(res.api_permissions)
-    addDynamicRoutes(res.menu_permissions)
-    userSettingStore.setUserRoutes(router.getRoutes())
-  })
-}
-
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // start progress bar
@@ -103,7 +94,12 @@ router.beforeEach(async (to, from, next) => {
   // has token ?
   if (userSettingStore.getToken !== '') {
     if (userSettingStore.getMenuPermissions.length === 0) {
-      getPermissionsToAddDynamicRoutes(userSettingStore)
+      getUserPermissions().then((res) => {
+        userSettingStore.setMenuPermissions(res.menu_permissions)
+        userSettingStore.setButtonPermissions(res.api_permissions)
+        addDynamicRoutes(res.menu_permissions)
+        userSettingStore.setUserRoutes(router.getRoutes())
+      })
       next()
     } else {
       addDynamicRoutes(userSettingStore.getMenuPermissions)
