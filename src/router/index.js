@@ -100,34 +100,29 @@ const getPermissionsToAddDynamicRoutes = (userSettingStore) => {
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // start progress bar
   const userSettingStore = userStore()
-  if (from.path === '/login') {
-    // 凡是从登录页面跳转过来的统一重新获取一遍用户的菜单和按钮权限
-    getPermissionsToAddDynamicRoutes(userSettingStore)
-    next()
-  } else {
-    /* has token ? */
-    if (userSettingStore.getToken !== '') {
-      if (userSettingStore.getMenuPermissions.length === 0) {
-        getPermissionsToAddDynamicRoutes(userSettingStore)
-      } else {
-        addDynamicRoutes(userSettingStore.getMenuPermissions)
-      }
+  // has token ?
+  if (userSettingStore.getToken !== '') {
+    if (userSettingStore.getMenuPermissions.length === 0) {
+      getPermissionsToAddDynamicRoutes(userSettingStore)
+      next()
+    } else {
+      addDynamicRoutes(userSettingStore.getMenuPermissions)
       if (to.matched.length === 0 && from.matched.length === 0) {
-        // 刷新页面会白屏
-        next(to)
+        // 刷新页面时页面白屏处理
+        next({ ...to, replace: true })
       } else if (to.matched.length === 0 && from.matched.length !== 0) {
-        // 未匹配到路由path跳转到404
+        // 未匹配到路由path时跳转到404页面
         next({ path: '/404' })
       } else {
         next()
       }
+    }
+  } else {
+    if (routeWhiteList.includes(to.path)) {
+      // 在免登录名单，直接进入
+      next()
     } else {
-      if (routeWhiteList.includes(to.path)) {
-        // 在免登录名单，直接进入
-        next()
-      } else {
-        next({ path: '/login' })
-      }
+      next({ path: '/login' })
     }
   }
 })
