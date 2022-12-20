@@ -92,7 +92,6 @@ const getPermissions2AddDynamicRoutes = (userSettingStore) => {
     userSettingStore.setMenuPermissions(res.menu_permissions)
     userSettingStore.setButtonPermissions(res.api_permissions)
     addDynamicRoutes(res.menu_permissions)
-    userSettingStore.setUserRoutes(router.getRoutes())
   })
 }
 
