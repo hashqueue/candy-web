@@ -31,6 +31,9 @@ const router = useRouter()
 const route = useRoute()
 const selectedKeys = computed(() => [route.path])
 const routes = computed(() => {
+  if (!userSettingStore.getUserRoutes) {
+    return []
+  }
   const res = generateRouteTreeData(userSettingStore.getUserRoutes)
   const filterRoutes = filterRouters(res)
   return generateMenus(filterRoutes)

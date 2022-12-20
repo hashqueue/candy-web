@@ -43,8 +43,7 @@ const convertRouteData = (originData, key) => {
   const tmpParent = {}
   tmpParent.path = originData[key]['path']
   tmpParent.name = originData[key]['path']
-  tmpParent.component = modules[originData[key]['component']]
-  // tmpParent.component = () => import(originData[key]['component'])
+  tmpParent.component = modules[originData[key]['component'].replace('@', '..')]
   if (originData[key]['redirect'] !== '') {
     tmpParent.redirect = originData[key]['redirect']
   }

@@ -87,20 +87,24 @@ const addDynamicRoutes = (menuPermissions) => {
   }
 }
 
+const getPermissions2AddDynamicRoutes = (userSettingStore) => {
+  getUserPermissions().then((res) => {
+    userSettingStore.setMenuPermissions(res.menu_permissions)
+    userSettingStore.setButtonPermissions(res.api_permissions)
+    addDynamicRoutes(res.menu_permissions)
+    userSettingStore.setUserRoutes(router.getRoutes())
+  })
+}
+
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // start progress bar
   const userSettingStore = userStore()
   // has token ?
-  if (userSettingStore.getToken !== '') {
-    if (userSettingStore.getMenuPermissions.length === 0) {
-      getUserPermissions().then((res) => {
-        userSettingStore.setMenuPermissions(res.menu_permissions)
-        userSettingStore.setButtonPermissions(res.api_permissions)
-        addDynamicRoutes(res.menu_permissions)
-        userSettingStore.setUserRoutes(router.getRoutes())
-        next()
-      })
+  if (userSettingStore.getToken) {
+    if (!userSettingStore.getMenuPermissions) {
+      getPermissions2AddDynamicRoutes(userSettingStore)
+      next()
     } else {
       addDynamicRoutes(userSettingStore.getMenuPermissions)
       if (to.matched.length === 0 && from.matched.length === 0) {
