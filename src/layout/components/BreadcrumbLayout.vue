@@ -32,8 +32,9 @@ watch(
   }
 )
 const onLinkClick = (item) => {
-  // console.log(item)
-  router.push(item.path + '/' + item.redirect)
+  if (item.redirect) {
+    router.push({ name: item.redirect })
+  }
 }
 </script>
 
